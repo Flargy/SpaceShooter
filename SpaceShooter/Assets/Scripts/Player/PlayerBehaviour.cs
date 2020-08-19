@@ -65,20 +65,25 @@ public class PlayerBehaviour : MonoBehaviour
         immortalityTimer += immortalityTimer < 1.5f ? GameVariables.GameTime : 0f;
     }
 
+    private void CreateProjectile(GameObject projectile, Transform spawnPoint)
+    {
+        GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+        newProjectile.GetComponent<ProjectileBase>().Damage = currentDamage;
+    }
+
     private void Fire()
     {
         if(cooldownTimer >= currentFireRate)
         {
             missileCounter += 1;
-            GameObject bullet = Instantiate(laserProjectile, projectileSpawn.position, projectileSpawn.rotation);
+            CreateProjectile(laserProjectile, projectileSpawn);
             int index = 0;
             for(int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.SPREAD]; i++)
             {
-                GameObject bullet1 = Instantiate(laserProjectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
+                CreateProjectile(laserProjectile, SpreadSpawPoints[index]);
                 index++;
-                GameObject bullet2 = Instantiate(laserProjectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
+                CreateProjectile(laserProjectile, SpreadSpawPoints[index]);
                 index++;
-
                 if (index >= 6)
                     break;
             }
@@ -87,10 +92,21 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.MISSILE]; i++)
                 {
-                    GameObject bullet1 = Instantiate(missileProjectile, missileSpawnpoints[index].position, missileSpawnpoints[index].rotation);
-                    index++;
-                    GameObject bullet2 = Instantiate(missileProjectile, missileSpawnpoints[index].position, missileSpawnpoints[index].rotation);
-                    index++;
+                    if(index <= 1)
+                    {
+                        CreateProjectile(missileProjectile, missileSpawnpoints[index]);
+                        index++;
+                        CreateProjectile(missileProjectile, missileSpawnpoints[index]);
+                        index++;
+                    }
+                    else
+                    {
+                        CreateProjectile(targetMissileProjectile, missileSpawnpoints[index]);
+                        index++;
+                        CreateProjectile(targetMissileProjectile, missileSpawnpoints[index]);
+                        index++;
+                    }
+
 
                     if (index >= 6)
                         break;

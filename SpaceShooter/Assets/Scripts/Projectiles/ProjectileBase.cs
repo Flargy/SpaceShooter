@@ -8,9 +8,16 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 {
     [field: SerializeField] protected float projectileSpeed { get; set; }
     [field: SerializeField] protected Transform projectileTransform { get; set; }
-    [field: SerializeField] public float damage { get; set; }
+    [field: SerializeField] protected float damageMultiplier { get; set; }
+
+    public float Damage { get; set; }
 
     RaycastHit hit;
+
+    protected virtual void Awake()
+    {
+        GameVariables.RegisterProjectile(gameObject);
+    }
 
     // Update is called once per frame
     protected virtual void Update()
@@ -43,7 +50,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         PlayerBehaviour player = hit.collider.gameObject.GetComponent<PlayerBehaviour>();
         if (enemy != null)
         {
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(damageMultiplier);
             Debug.Log("Enemyfound");
         }
         else if(player != null)

@@ -7,8 +7,10 @@ public class MissileBase : ProjectileBase
 
     [SerializeField] private float accelerate;
     // Start is called before the first frame update
-    void Start()
+
+    protected virtual void Awake()
     {
+        base.Awake();
     }
 
     protected override void Update()
@@ -18,7 +20,7 @@ public class MissileBase : ProjectileBase
 
     protected override void Move()
     {
-        base.projectileSpeed *= accelerate;
+        base.projectileSpeed += accelerate * GameVariables.GameTime;
         if (base.CheckCollision(projectileSpeed * GameVariables.GameTime))
         {
             Debug.Log("ProjectileSpeed: " + projectileSpeed);

@@ -14,6 +14,10 @@ public class GameVariables : MonoBehaviour
     [SerializeField] private List<Material> materials = new List<Material>();
     static public List<Material> PowerUpMaterials = new List<Material>();
 
+    static public Transform GetEnemy()
+    {
+        return enemies[0].transform;
+    }
 
     private void Awake()
     {
@@ -24,7 +28,7 @@ public class GameVariables : MonoBehaviour
         GameTime = Time.deltaTime;
     }
 
-    static private void RegisterEnemy(GameObject enemy)
+    static public void RegisterEnemy(GameObject enemy)
     {
         enemies.Add(enemy);
     }

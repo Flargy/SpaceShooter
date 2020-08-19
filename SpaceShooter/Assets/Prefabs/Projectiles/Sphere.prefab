@@ -110,4 +110,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <projectileSpeed>k__BackingField: 15
   <projectileTransform>k__BackingField: {fileID: 6477066122903019773}
-  <damage>k__BackingField: 3
+  <damageMultiplier>k__BackingField: 1
