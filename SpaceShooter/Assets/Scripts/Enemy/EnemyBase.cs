@@ -15,6 +15,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected Transform projectileFire;
 
     [SerializeField] private float fireRate = 5;
+    [SerializeField] private bool isBoss = false;
 
     private float coolDownTimer = 0;
 
@@ -22,7 +23,9 @@ public class EnemyBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        float modifier = EnemySpawner.Instance.DifficultyMultiplier;
+        health = health * modifier;
+        fireRate = fireRate - 1 * 0.2f * modifier;
     }
 
     // Update is called once per frame
@@ -42,7 +45,13 @@ public class EnemyBase : MonoBehaviour
         Debug.Log("Ow");
         health -= dmg;
         if (health <= 0)
+        {
+            if (isBoss == false)
+                EnemySpawner.Instance.RemoveEnemy();
+            else
+                EnemySpawner.Instance.BossDefeated();
             Destroy(gameObject);
+        }
     }
 
     private void Fire()
@@ -62,5 +71,13 @@ public class EnemyBase : MonoBehaviour
     {
         Physics.Raycast(transform.position, transform.forward, out hit, movementSpeed * GameVariables.GameTime);
         return hit.collider == null ? true : false;
+    }
+
+    private void OnDisable()
+    {
+        if(isBoss == false)
+        {
+            EnemySpawner.Instance.EnemyOutOfBounds();
+        }
     }
 }
