@@ -11,8 +11,14 @@ public class GameVariables : MonoBehaviour
     static private List<GameObject> enemies = new List<GameObject>();
 
     static private List<GameObject> projectiles = new List<GameObject>();
+    [SerializeField] private List<Material> materials = new List<Material>();
+    static public List<Material> PowerUpMaterials = new List<Material>();
 
 
+    private void Awake()
+    {
+        PowerUpMaterials = materials;
+    }
     private void Update()
     {
         GameTime = Time.deltaTime;

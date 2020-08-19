@@ -9,18 +9,17 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float currentFireRate = 0f;
     [SerializeField] private int baseDamage = 1;
     [SerializeField] private int playerHealth = 3;
-    [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject laserProjectile;
+    [SerializeField] private GameObject missileProjectile;
+    [SerializeField] private GameObject targetMissileProjectile;
+    [SerializeField] private GameObject droneProjectile;
     [SerializeField] private Transform projectileSpawn;
     [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
     [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
 
-    [SerializeField] private bool weaponType = false; ///yolo false == spread, true == missile :D
+    private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
 
-    private Dictionary<bool, int> upgrades = new Dictionary<bool, int>();
-
-
-    private float missileCoolDown = 0;
-
+    private int missileCounter = 0;
     private float currentDamage = 0f;
     private Vector3 direction = Vector3.zero;
     private int fireRate = 1;
@@ -31,8 +30,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Awake()
     {
-        upgrades.Add(false, 0);
-        upgrades.Add(true, 0);
+        upgrades.Add(PowerUpEnums.PowerEnum.SPREAD, 0);
+        upgrades.Add(PowerUpEnums.PowerEnum.MISSILE, 0);
+        upgrades.Add(PowerUpEnums.PowerEnum.DRONE, 0);
         GameVariables.Player = this;
         GameVariables.PlayerTransform = transform;
         currentDamage = baseDamage;
@@ -55,8 +55,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            upgrades[false]++;
-            Debug.Log("Vale upgrae to :" + upgrades[false]);
+            upgrades[PowerUpEnums.PowerEnum.SPREAD]++;
+            upgrades[PowerUpEnums.PowerEnum.MISSILE]++;
+            //upgrades[PowerUpEnums.PowerEnum.DRONE]++;
+            Debug.Log("Vale upgrae to :" + upgrades[PowerUpEnums.PowerEnum.DRONE]);
         }
         Move();
 
@@ -65,31 +67,38 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Fire()
     {
-        //cooldownTimer >= currentFireRate ? Debug.Log("hej") : Debug.Log("inte hej");
         if(cooldownTimer >= currentFireRate)
         {
-            //Debug.Log("fire");
-            GameObject bullet = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
+            missileCounter += 1;
+            GameObject bullet = Instantiate(laserProjectile, projectileSpawn.position, projectileSpawn.rotation);
             int index = 0;
-            for(int i = 1; i <= upgrades[false]; i++)
+            for(int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.SPREAD]; i++)
             {
-                GameObject bullet1 = Instantiate(projectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
+                GameObject bullet1 = Instantiate(laserProjectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
                 index++;
-                GameObject bullet2 = Instantiate(projectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
+                GameObject bullet2 = Instantiate(laserProjectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
                 index++;
 
-                if (index >= 7)
+                if (index >= 6)
                     break;
             }
-
             index = 0;
+            if(missileCounter >=5 && upgrades[PowerUpEnums.PowerEnum.MISSILE] > 0)
+            {
+                for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.MISSILE]; i++)
+                {
+                    GameObject bullet1 = Instantiate(missileProjectile, missileSpawnpoints[index].position, missileSpawnpoints[index].rotation);
+                    index++;
+                    GameObject bullet2 = Instantiate(missileProjectile, missileSpawnpoints[index].position, missileSpawnpoints[index].rotation);
+                    index++;
 
+                    if (index >= 6)
+                        break;
+                }
+                missileCounter = 0;
+            }
 
             cooldownTimer = 0;
-        }
-        else
-        {
-            //Debug.Log("not fire");
         }
     }
 
@@ -100,9 +109,25 @@ public class PlayerBehaviour : MonoBehaviour
 
     }
 
-    private void UseAbility()
+    public void PowerUp(PowerUpEnums.PowerEnum powerEnum)
     {
+        if (upgrades.ContainsKey(powerEnum))
+        {
+            upgrades[powerEnum]++;
+            Debug.Log("Upgraded " + powerEnum.ToString());
+        }
+        else if(powerEnum == PowerUpEnums.PowerEnum.DAMAGE)
+        {
+            currentDamage += 0.1f * baseDamage;
+            Debug.Log("Upgraded " + powerEnum.ToString());
 
+        }
+        else if (powerEnum == PowerUpEnums.PowerEnum.FIRERATE)
+        {
+            currentFireRate -= 0.05f * fireRate;
+            Debug.Log("Upgraded " + powerEnum.ToString());
+
+        }
     }
 
     public void ReceiveDamage()
@@ -122,3 +147,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 }
+
+
+

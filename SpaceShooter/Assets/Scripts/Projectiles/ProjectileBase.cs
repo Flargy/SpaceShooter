@@ -11,13 +11,9 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     [field: SerializeField] public float damage { get; set; }
 
     RaycastHit hit;
-    // Start is called before the first frame update
-    void Awake()
-    {
-    }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         Move();
     }
@@ -25,7 +21,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     protected virtual void Move()
     {
-        if (CheckCollision())
+        if (CheckCollision(projectileSpeed * GameVariables.GameTime))
         {
             projectileTransform.position += projectileTransform.forward * projectileSpeed * GameVariables.GameTime;
         }
@@ -35,9 +31,9 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         }
     }
 
-    protected virtual bool CheckCollision()
+    protected virtual bool CheckCollision(float distance)
     {
-        Physics.Raycast(projectileTransform.position, projectileTransform.forward, out hit, projectileSpeed * GameVariables.GameTime);
+        Physics.Raycast(projectileTransform.position, projectileTransform.forward, out hit, distance);
         return hit.collider == null ? true : false; 
     }
 
