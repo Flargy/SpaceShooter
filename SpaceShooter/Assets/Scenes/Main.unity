@@ -984,7 +984,7 @@ MonoBehaviour:
   playerHealth: 3
   laserProjectile: {fileID: 3907442149975079042, guid: ac3cba9ca7d9c6544923eefbc5d7dac0, type: 3}
   missileProjectile: {fileID: 9050818978575354317, guid: 734373dd00bb57641bf0a14d247bdbfc, type: 3}
-  targetMissileProjectile: {fileID: 9050818978575354317, guid: 734373dd00bb57641bf0a14d247bdbfc, type: 3}
+  targetMissileProjectile: {fileID: 9050818978575354317, guid: 65559be8c6cdc3d4490250d11d089061, type: 3}
   droneProjectile: {fileID: 9050818978575354317, guid: 65559be8c6cdc3d4490250d11d089061, type: 3}
   projectileSpawn: {fileID: 1425549855}
   SpreadSpawPoints:
