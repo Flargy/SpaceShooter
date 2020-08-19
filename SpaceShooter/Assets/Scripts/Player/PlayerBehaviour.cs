@@ -9,6 +9,17 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float currentFireRate = 0f;
     [SerializeField] private int baseDamage = 1;
     [SerializeField] private int playerHealth = 3;
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private Transform projectileSpawn;
+    [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
+    [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
+
+    [SerializeField] private bool weaponType = false; ///yolo false == spread, true == missile :D
+
+    private Dictionary<bool, int> upgrades = new Dictionary<bool, int>();
+
+
+    private float missileCoolDown = 0;
 
     private float currentDamage = 0f;
     private Vector3 direction = Vector3.zero;
@@ -20,6 +31,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Awake()
     {
+        upgrades.Add(false, 0);
+        upgrades.Add(true, 0);
+        GameVariables.Player = this;
+        GameVariables.PlayerTransform = transform;
         currentDamage = baseDamage;
         currentFireRate = fireRate;
     }
@@ -27,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         direction.x = Input.GetAxis("Horizontal");
-        direction.y = Input.GetAxis("Vertical");
+        direction.z = Input.GetAxis("Vertical");
         cooldownTimer += GameVariables.GameTime;
         if (Input.GetKey(KeyCode.Space))
         {
@@ -38,12 +53,14 @@ public class PlayerBehaviour : MonoBehaviour
         {
             ReceiveDamage();
         }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            upgrades[false]++;
+            Debug.Log("Vale upgrae to :" + upgrades[false]);
+        }
         Move();
 
         immortalityTimer += immortalityTimer < 1.5f ? GameVariables.GameTime : 0f;
-
-
-        GameVariables.PlayerTransform = transform;
     }
 
     private void Fire()
@@ -51,12 +68,28 @@ public class PlayerBehaviour : MonoBehaviour
         //cooldownTimer >= currentFireRate ? Debug.Log("hej") : Debug.Log("inte hej");
         if(cooldownTimer >= currentFireRate)
         {
-            Debug.Log("fire");
+            //Debug.Log("fire");
+            GameObject bullet = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
+            int index = 0;
+            for(int i = 1; i <= upgrades[false]; i++)
+            {
+                GameObject bullet1 = Instantiate(projectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
+                index++;
+                GameObject bullet2 = Instantiate(projectile, SpreadSpawPoints[index].position, SpreadSpawPoints[index].rotation);
+                index++;
+
+                if (index >= 7)
+                    break;
+            }
+
+            index = 0;
+
+
             cooldownTimer = 0;
         }
         else
         {
-            Debug.Log("not fire");
+            //Debug.Log("not fire");
         }
     }
 

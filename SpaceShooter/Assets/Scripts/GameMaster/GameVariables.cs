@@ -6,22 +6,24 @@ public class GameVariables : MonoBehaviour
 {
     static public float GameTime { get; set; }
     static public Transform PlayerTransform { get; set; }
+    static public PlayerBehaviour Player { get; set; }
 
     static private List<GameObject> enemies = new List<GameObject>();
 
     static private List<GameObject> projectiles = new List<GameObject>();
+
 
     private void Update()
     {
         GameTime = Time.deltaTime;
     }
 
-    private void RegisterEnemy(GameObject enemy)
+    static private void RegisterEnemy(GameObject enemy)
     {
         enemies.Add(enemy);
     }
 
-    private void RemoveEnemy(GameObject enemy)
+    static public void RemoveEnemy(GameObject enemy)
     {
         if (enemies.Contains(enemy))
         {
@@ -29,7 +31,7 @@ public class GameVariables : MonoBehaviour
         }
     }
 
-    private void EmptyList(ref List<GameObject> list)
+    static public void EmptyList(ref List<GameObject> list)
     {
         foreach(GameObject obj in list)
         {
@@ -38,12 +40,12 @@ public class GameVariables : MonoBehaviour
         list.Clear();
     }
 
-    private void RegisterProjectile(GameObject projectile)
+    static public void RegisterProjectile(GameObject projectile)
     {
         projectiles.Add(projectile);
     }
 
-    private void RemoveProjectile(GameObject projectile)
+    static public void RemoveProjectile(GameObject projectile)
     {
         if (projectiles.Contains(projectile))
         {
