@@ -6,13 +6,15 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float currentFireRate = 0f;
+    [SerializeField] private int baseDamage = 1;
+    [SerializeField] private int playerHealth = 3;
 
-    private int baseDamage = 1;
     private float currentDamage = 0f;
     private Vector3 direction = Vector3.zero;
-    private float currentFireRate = 0f;
     private int fireRate = 1;
     private float cooldownTimer = 0f;
+    private float immortalityTimer = 0f;
     
 
 
@@ -31,7 +33,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Fire();
         }
+
+        if (Input.GetKey(KeyCode.P))
+        {
+            ReceiveDamage();
+        }
         Move();
+
+        immortalityTimer += immortalityTimer < 1.5f ? GameVariables.GameTime : 0f;
+
+
         GameVariables.PlayerTransform = transform;
     }
 
@@ -56,5 +67,25 @@ public class PlayerBehaviour : MonoBehaviour
 
     }
 
-    
+    private void UseAbility()
+    {
+
+    }
+
+    public void ReceiveDamage()
+    {
+        if (immortalityTimer <= 1.5f)
+        {
+            Debug.Log("no damage");
+            return;
+        }
+        Debug.Log("damage");
+
+        immortalityTimer = 0f;
+        playerHealth--;
+        if(playerHealth == 0)
+        {
+            Debug.Log("i dedad, you suck");
+        }
+    }
 }
