@@ -26,6 +26,7 @@ public class EnemyBase : MonoBehaviour
         float modifier = EnemySpawner.Instance.DifficultyMultiplier;
         health = health * modifier;
         fireRate = fireRate - 1 * 0.2f * modifier;
+        GameVariables.Instance.RegisterEnemy(gameObject);
     }
 
     // Update is called once per frame
@@ -75,6 +76,7 @@ public class EnemyBase : MonoBehaviour
 
     private void OnDisable()
     {
+        GameVariables.Instance.RemoveEnemy(gameObject);
         if(isBoss == false)
         {
             EnemySpawner.Instance.EnemyOutOfBounds();

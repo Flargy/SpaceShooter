@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class GameVariables : MonoBehaviour
 {
+    private static GameVariables instance = null;
+
+    public static GameVariables Instance { get { return instance; } }
+
     static public float GameTime { get; set; }
     static public Transform PlayerTransform { get; set; }
     static public PlayerBehaviour Player { get; set; }
@@ -21,6 +26,10 @@ public class GameVariables : MonoBehaviour
 
     private void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+        }
         PowerUpMaterials = materials;
     }
     private void Update()
@@ -28,12 +37,12 @@ public class GameVariables : MonoBehaviour
         GameTime = Time.deltaTime;
     }
 
-    static public void RegisterEnemy(GameObject enemy)
+    public void RegisterEnemy(GameObject enemy)
     {
         enemies.Add(enemy);
     }
 
-    static public void RemoveEnemy(GameObject enemy)
+    public void RemoveEnemy(GameObject enemy)
     {
         if (enemies.Contains(enemy))
         {
@@ -41,7 +50,7 @@ public class GameVariables : MonoBehaviour
         }
     }
 
-    static public void EmptyList(ref List<GameObject> list)
+    public void EmptyList(ref List<GameObject> list)
     {
         foreach(GameObject obj in list)
         {
@@ -50,12 +59,12 @@ public class GameVariables : MonoBehaviour
         list.Clear();
     }
 
-    static public void RegisterProjectile(GameObject projectile)
+    public void RegisterProjectile(GameObject projectile)
     {
         projectiles.Add(projectile);
     }
 
-    static public void RemoveProjectile(GameObject projectile)
+    public void RemoveProjectile(GameObject projectile)
     {
         if (projectiles.Contains(projectile))
         {

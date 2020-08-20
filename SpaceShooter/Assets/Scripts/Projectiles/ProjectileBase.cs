@@ -16,7 +16,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     protected virtual void Awake()
     {
-        GameVariables.RegisterProjectile(gameObject);
+        GameVariables.Instance.RegisterProjectile(gameObject);
     }
 
     // Update is called once per frame
@@ -63,7 +63,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
             Debug.Log("nothing found");
         }
 
-        GameVariables.RemoveProjectile(projectileTransform.gameObject);
+        GameVariables.Instance.RemoveProjectile(projectileTransform.gameObject);
         Destroy(projectileTransform.gameObject);
         Destroy(this);
     }
