@@ -6,6 +6,7 @@ using UnityEngine.Scripting.APIUpdating;
 //[CreateAssetMenu(menuName = "ProjectileBase")]
 public class ProjectileBase : MonoBehaviour //ScriptableObject
 {
+    [SerializeField] protected LayerMask allowedLayers;
     [field: SerializeField] protected float projectileSpeed { get; set; }
     [field: SerializeField] protected Transform projectileTransform { get; set; }
     [field: SerializeField] protected float damageMultiplier { get; set; }
@@ -53,7 +54,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     protected virtual bool CheckCollision(float distance)
     {
         
-        Physics.SphereCast(projectileTransform.position, sphere.radius, projectileTransform.forward, out hit, distance);
+        Physics.SphereCast(projectileTransform.position, sphere.radius, projectileTransform.forward, out hit, distance, allowedLayers);
         return hit.collider == null ? true : false; 
     }
 

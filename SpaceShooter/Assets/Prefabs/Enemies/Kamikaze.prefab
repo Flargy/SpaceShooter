@@ -109,6 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1372c7ab03191d74ea08e537d4eef591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowedLayers:
+    serializedVersion: 2
+    m_Bits: 10496
   health: 4
   movementSpeed: 3
   projectile: {fileID: 0}

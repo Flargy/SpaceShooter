@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff05d8db877552148beac61ec1f0b3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowedLayers:
+    serializedVersion: 2
+    m_Bits: 9216
   <projectileSpeed>k__BackingField: 1.5
   <projectileTransform>k__BackingField: {fileID: 5143679928610606377}
   <damageMultiplier>k__BackingField: 2

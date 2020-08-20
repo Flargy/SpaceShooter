@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class EnemyBase : MonoBehaviour
 {
-
+    [SerializeField] protected LayerMask allowedLayers;
     [SerializeField] protected float health = 10;
 
     [SerializeField] protected float movementSpeed = 5;
@@ -44,9 +44,8 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float dmg)
+    public virtual void TakeDamage(float dmg)
     {
-
         health -= dmg;
         if (health <= 0)
         {
@@ -75,22 +74,18 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual bool CheckCollision(Vector3 direction, float distance)
     {
-        Physics.Raycast(transform.position, direction.normalized, out hit, distance + colliderRadius);
+        Physics.Raycast(transform.position, direction.normalized, out hit, distance + colliderRadius, allowedLayers);
         return hit.collider == null ? true : false;
     }
 
     protected virtual void OnDisable()
     {
-        GameVariables.Instance.RemoveEnemy(gameObject);
-        if (isBoss == false)
+        if (health <= 0 && UnityEngine.Random.Range(0, 100) > 100 - powerUpSpawnrate)
         {
-            //EnemySpawner.Instance.EnemyOutOfBounds();
-
-            if (UnityEngine.Random.Range(0, 100) > 100 - powerUpSpawnrate)
-            {
-                SpawnPowerup();
-            }
+            SpawnPowerup();
         }
+
+        GameVariables.Instance.RemoveEnemy(gameObject);
     }
 
     protected void SpawnPowerup()
