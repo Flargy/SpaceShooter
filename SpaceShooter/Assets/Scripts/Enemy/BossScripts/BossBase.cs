@@ -131,6 +131,6 @@ public class BossBase : DamageableObject
         immune = true;
         GetComponent<Collider>().enabled = false;
         EnemySpawner.Instance.RemoveEnemy();
-        Destroy(gameObject, 5.0f);
+        Destroy(gameObject, 7.5f);
     }
 }
