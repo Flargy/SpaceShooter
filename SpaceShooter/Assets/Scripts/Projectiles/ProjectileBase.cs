@@ -18,7 +18,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     public Type ProjectileType;
 
 
-    RaycastHit hit;
+    public RaycastHit hit;
 
     protected virtual void Awake()
     {
@@ -47,7 +47,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     protected virtual bool CheckCollision(float distance)
     {
-        Physics.Raycast(projectileTransform.position, projectileTransform.forward, out hit, distance);
+        Physics.Raycast(projectileTransform.position + transform.forward, projectileTransform.forward, out hit, distance);
         return hit.collider == null ? true : false; 
     }
 
@@ -65,7 +65,6 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         else if(player != null)
         {
             player.ReceiveDamage();
-            Debug.Log("Player found");
             Destroy(projectileTransform.gameObject);
             Destroy(this);
         }

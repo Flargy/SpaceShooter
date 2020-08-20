@@ -68,7 +68,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void RemoveEnemy()
     {
-        Debug.Log("i was activated");
+
         activeEnemies--;
         currentKills++;
         if (currentKills >= killsToBoss && bossActive == false)

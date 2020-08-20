@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 342294413613995523}
   - component: {fileID: 1197180898903867717}
   - component: {fileID: 5179047637220530836}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 5143679928610606377}
   - component: {fileID: 3290952180929182859}
   - component: {fileID: 5139160927418832660}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TargetMissile
   m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
@@ -125,8 +125,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 11.36124, z: 2.5118508}
-  m_Center: {x: 0, y: -4.925587, z: -0.1212423}
+  m_Size: {x: 1, y: 1.2, z: 2.5118508}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5139160927418832660
 MonoBehaviour:
   m_ObjectHideFlags: 0
