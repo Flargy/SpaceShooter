@@ -71,18 +71,39 @@ public class PlayerBehaviour : MonoBehaviour
         newProjectile.GetComponent<ProjectileBase>().Damage = currentDamage;
     }
 
+    private void InitializeProjectile(GameObject projectile, Transform spawnPoint)
+    {
+        if(projectile != null)
+        {
+            projectile.transform.position = spawnPoint.position;
+            projectile.transform.rotation = spawnPoint.rotation;
+            projectile.SetActive(true);
+            projectile.GetComponent<ProjectileBase>().Damage = currentDamage;
+        }
+        else
+        {
+            CreateProjectile(projectile, spawnPoint);
+        }
+    }
+
+    private void InitializeMissile(GameObject projectile, Transform spawnPoint)
+    {
+        InitializeProjectile(projectile, spawnPoint);
+        projectile.GetComponent<MissileBase>().Spawn();
+    }
+
     private void Fire()
     {
         if(cooldownTimer >= currentFireRate)
         {
             missileCounter += 1;
-            CreateProjectile(laserProjectile, projectileSpawn);
+            InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), projectileSpawn);
             int index = 0;
             for(int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.SPREAD]; i++)
             {
-                CreateProjectile(laserProjectile, SpreadSpawPoints[index]);
+                InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
                 index++;
-                CreateProjectile(laserProjectile, SpreadSpawPoints[index]);
+                InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
                 index++;
                 if (index >= 6)
                     break;
@@ -94,16 +115,16 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     if(index <= 1)
                     {
-                        CreateProjectile(missileProjectile, missileSpawnpoints[index]);
+                        InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
                         index++;
-                        CreateProjectile(missileProjectile, missileSpawnpoints[index]);
+                        InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
                         index++;
                     }
                     else
                     {
-                        CreateProjectile(targetMissileProjectile, missileSpawnpoints[index]);
+                        InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
                         index++;
-                        CreateProjectile(targetMissileProjectile, missileSpawnpoints[index]);
+                        InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
                         index++;
                     }
 

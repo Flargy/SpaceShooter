@@ -212,7 +212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574574831}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.66, y: -2.97, z: -0.22}
+  m_LocalPosition: {x: -1.66, y: -0.98, z: -0.22}
   m_LocalScale: {x: 19.129, y: 0.55315, z: 13.613}
   m_Children: []
   m_Father: {fileID: 0}
@@ -414,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8848981833759406614, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.1934242
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8848981833759406614, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
       propertyPath: m_LocalPosition.z
@@ -582,6 +582,7 @@ GameObject:
   - component: {fileID: 1070195071}
   - component: {fileID: 1070195070}
   - component: {fileID: 1070195072}
+  - component: {fileID: 1070195073}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -646,6 +647,24 @@ MonoBehaviour:
   - {fileID: 1217601850}
   bosses:
   - {fileID: 827183027051241031, guid: 9c5374b38fe0b764393091c11b31e196, type: 3}
+--- !u!114 &1070195073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070195069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1726ae92718e1fa4a8e0a325fc6b1d2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LazerPoolObject: {fileID: 3907442149975079042, guid: ac3cba9ca7d9c6544923eefbc5d7dac0, type: 3}
+  MissilePoolObject: {fileID: 9050818978575354317, guid: 734373dd00bb57641bf0a14d247bdbfc, type: 3}
+  HomingMissilePoolObject: {fileID: 9050818978575354317, guid: 65559be8c6cdc3d4490250d11d089061, type: 3}
+  LazerPoolAmmount: 40
+  MissilePoolAmmount: 20
+  HomingMissilePoolAmmount: 20
 --- !u!1 &1199829956
 GameObject:
   m_ObjectHideFlags: 0

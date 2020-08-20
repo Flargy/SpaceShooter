@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5139160927418832660}
   m_Layer: 0
   m_Name: TargetMissile
-  m_TagString: Untagged
+  m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,8 +106,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9050818978575354317}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.27550483, y: 0.704, z: -1.065}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.34898925, y: 0.885, z: -3.06353}
   m_LocalScale: {x: 0.18701807, y: 0.18701807, z: 0.18701807}
   m_Children:
   - {fileID: 342294413613995523}
@@ -142,4 +142,5 @@ MonoBehaviour:
   <projectileSpeed>k__BackingField: 1.5
   <projectileTransform>k__BackingField: {fileID: 342294413613995523}
   <damageMultiplier>k__BackingField: 2
+  ProjectileType: 2
   accelerate: 20

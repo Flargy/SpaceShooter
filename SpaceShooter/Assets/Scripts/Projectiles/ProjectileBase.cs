@@ -9,13 +9,20 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     [field: SerializeField] protected float projectileSpeed { get; set; }
     [field: SerializeField] protected Transform projectileTransform { get; set; }
     [field: SerializeField] protected float damageMultiplier { get; set; }
+    protected float StartSpeed { get; set; }
 
     public float Damage { get; set; }
+
+    public enum Type { Lazer, Missile, HomingMisslie }
+
+    public Type ProjectileType;
+
 
     RaycastHit hit;
 
     protected virtual void Awake()
     {
+        StartSpeed = projectileSpeed;
         GameVariables.Instance.RegisterProjectile(gameObject);
     }
 
@@ -50,13 +57,17 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         PlayerBehaviour player = hit.collider.gameObject.GetComponent<PlayerBehaviour>();
         if (enemy != null)
         {
-            enemy.TakeDamage(damageMultiplier);
-            Debug.Log("Enemyfound");
+            enemy.TakeDamage(Damage * damageMultiplier);
+            ObjectPool.Instance.AddToList(gameObject);
+
+            return;
         }
         else if(player != null)
         {
             player.ReceiveDamage();
             Debug.Log("Player found");
+            Destroy(projectileTransform.gameObject);
+            Destroy(this);
         }
         else
         {
@@ -64,8 +75,6 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         }
 
         GameVariables.Instance.RemoveProjectile(projectileTransform.gameObject);
-        Destroy(projectileTransform.gameObject);
-        Destroy(this);
     }
 
 }

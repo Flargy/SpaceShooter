@@ -43,7 +43,7 @@ public class EnemyBase : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
-        Debug.Log("Ow");
+
         health -= dmg;
         if (health <= 0)
         {

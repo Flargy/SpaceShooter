@@ -23,12 +23,18 @@ public class MissileBase : ProjectileBase
         base.projectileSpeed += accelerate * GameVariables.GameTime;
         if (base.CheckCollision(projectileSpeed * GameVariables.GameTime))
         {
-            Debug.Log("ProjectileSpeed: " + projectileSpeed);
+            //Debug.Log("ProjectileSpeed: " + projectileSpeed);
             transform.position += transform.forward.normalized * projectileSpeed * GameVariables.GameTime;
         }
         else
         {
-            KillProjectile();
+            base.KillProjectile();
         }
+    }
+
+    public virtual void Spawn()
+    {
+        projectileSpeed = StartSpeed;
+
     }
 }

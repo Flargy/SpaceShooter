@@ -9,7 +9,6 @@ public class TargetMissile : MissileBase
     protected override void Awake()
     {
         base.Awake();
-        Target = GameVariables.GetEnemy();
     }
 
     // Update is called once per frame
@@ -20,5 +19,11 @@ public class TargetMissile : MissileBase
             transform.LookAt(Target);
         }
         base.Update();
+    }
+
+    public override void Spawn()
+    {
+        base.Spawn();
+        Target = GameVariables.GetEnemy();
     }
 }
