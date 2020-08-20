@@ -21,7 +21,7 @@ public class MissileBase : ProjectileBase
     protected override void Move()
     {
         base.projectileSpeed += accelerate * GameVariables.GameTime;
-        if (base.CheckCollision(projectileSpeed * GameVariables.GameTime))
+        if (CheckCollision(projectileSpeed * GameVariables.GameTime))
         {
             //Debug.Log("ProjectileSpeed: " + projectileSpeed);
             projectileTransform.position += projectileTransform.forward.normalized * projectileSpeed * GameVariables.GameTime;
@@ -35,6 +35,12 @@ public class MissileBase : ProjectileBase
         Vector3 vec = projectileTransform.position + (projectileTransform.forward.normalized * projectileSpeed * GameVariables.GameTime);
 
         Debug.DrawLine(transform.position, vec, Color.blue);
+    }
+
+    protected override bool CheckCollision(float distance)
+    {
+        Physics.SphereCast(projectileTransform.position, sphere.radius, projectileTransform.forward, out hit, distance, LayerMask.GetMask("Enemy"));
+        return hit.collider == null ? true : false;
     }
 
     public virtual void Spawn()

@@ -21,7 +21,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     protected RaycastHit hit;
 
-    private SphereCollider sphere;
+    protected SphereCollider sphere;
 
     protected virtual void Awake()
     {
