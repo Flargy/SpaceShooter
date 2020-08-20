@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.IO.LowLevel.Unsafe;
+﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 public class EnemyBase : MonoBehaviour
 {
 
@@ -14,23 +12,28 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected GameObject projectile;
     [SerializeField] protected Transform projectileFire;
 
-    [SerializeField] private float fireRate = 5;
-    [SerializeField] private bool isBoss = false;
+    [SerializeField] protected float fireRate = 5;
+    [SerializeField] protected bool isBoss = false;
+
+    [Header("A value from 1-100")]
+    [SerializeField] protected int powerUpSpawnrate;
 
     private float coolDownTimer = 0;
+    protected float colliderRadius;
 
-    RaycastHit hit;
+    protected RaycastHit hit;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        float modifier = EnemySpawner.Instance.DifficultyMultiplier;
-        health = health * modifier;
-        fireRate = fireRate - 1 * 0.2f * modifier;
+        //float modifier = EnemySpawner.Instance.DifficultyMultiplier;
+        //health = health * modifier;
+        //fireRate = fireRate - 1 * 0.2f * modifier;
         GameVariables.Instance.RegisterEnemy(gameObject);
+        colliderRadius = GetComponent<SphereCollider>().radius;
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         Movmentbehaviour();
         coolDownTimer += GameVariables.GameTime;
@@ -55,31 +58,43 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    private void Fire()
+    protected virtual void Fire()
     {
         GameObject pew = Instantiate(projectile, projectileFire.position, projectileFire.rotation);
+        pew.transform.LookAt(GameVariables.PlayerTransform);
     }
 
     protected virtual void Movmentbehaviour()
     {
-        //if (CheckCollision())
-        //{
-            transform.position += transform.forward.normalized * movementSpeed * GameVariables.GameTime;
-        //}
+        float distance = movementSpeed * GameVariables.GameTime;
+        if (CheckCollision(transform.forward, distance))
+        {
+            transform.position += transform.forward.normalized * distance;
+        }
     } 
 
-    protected virtual bool CheckCollision()
+    protected virtual bool CheckCollision(Vector3 direction, float distance)
     {
-        Physics.Raycast(transform.position, transform.forward, out hit, movementSpeed * GameVariables.GameTime);
+        Physics.Raycast(transform.position, direction.normalized, out hit, distance + colliderRadius);
         return hit.collider == null ? true : false;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         GameVariables.Instance.RemoveEnemy(gameObject);
-        if(isBoss == false)
+        if (isBoss == false)
         {
-            EnemySpawner.Instance.EnemyOutOfBounds();
+            //EnemySpawner.Instance.EnemyOutOfBounds();
+
+            if (UnityEngine.Random.Range(0, 100) > 100 - powerUpSpawnrate)
+            {
+                SpawnPowerup();
+            }
         }
+    }
+
+    protected void SpawnPowerup()
+    {
+        GameObject powerUp = Instantiate(GameVariables.PowerUpPrefab, transform.position, transform.rotation);
     }
 }

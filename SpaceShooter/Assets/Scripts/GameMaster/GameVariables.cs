@@ -25,7 +25,10 @@ public class GameVariables : MonoBehaviour
 
     static public Transform GetEnemy()
     {
-        return enemies[0].transform;
+        if (enemies.Count > 0)
+            return enemies[0].transform;
+        else
+            return null;
     }
 
     private void Awake()
