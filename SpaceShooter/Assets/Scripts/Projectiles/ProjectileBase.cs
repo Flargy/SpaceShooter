@@ -18,10 +18,13 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     public Type ProjectileType;
 
 
-    public RaycastHit hit;
+    protected RaycastHit hit;
+
+    private SphereCollider sphere;
 
     protected virtual void Awake()
     {
+        sphere = GetComponent<SphereCollider>();
         StartSpeed = projectileSpeed;
         GameVariables.Instance.RegisterProjectile(gameObject);
     }
@@ -35,6 +38,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     protected virtual void Move()
     {
+        
         if (CheckCollision(projectileSpeed * GameVariables.GameTime))
         {
             projectileTransform.position += projectileTransform.forward * projectileSpeed * GameVariables.GameTime;
@@ -43,11 +47,13 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         {
             KillProjectile();
         }
+        
     }
 
     protected virtual bool CheckCollision(float distance)
     {
-        Physics.Raycast(projectileTransform.position + transform.forward, projectileTransform.forward, out hit, distance);
+        
+        Physics.SphereCast(projectileTransform.position, sphere.radius, projectileTransform.forward, out hit, distance);
         return hit.collider == null ? true : false; 
     }
 

@@ -24,13 +24,17 @@ public class MissileBase : ProjectileBase
         if (base.CheckCollision(projectileSpeed * GameVariables.GameTime))
         {
             //Debug.Log("ProjectileSpeed: " + projectileSpeed);
-            transform.position += transform.forward.normalized * projectileSpeed * GameVariables.GameTime;
+            projectileTransform.position += projectileTransform.forward.normalized * projectileSpeed * GameVariables.GameTime;
         }
         else
         {
             Debug.Log(hit.collider.gameObject.name);
             base.KillProjectile();
         }
+
+        Vector3 vec = projectileTransform.position + (projectileTransform.forward.normalized * projectileSpeed * GameVariables.GameTime);
+
+        Debug.DrawLine(transform.position, vec, Color.blue);
     }
 
     public virtual void Spawn()

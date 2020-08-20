@@ -132,7 +132,7 @@ MonoBehaviour:
   projectileFire: {fileID: 8851582731147058607}
   fireRate: 5
   isBoss: 0
-  powerUpSpawnrate: 0
+  powerUpSpawnrate: 99
 --- !u!135 &3321701958941275972
 SphereCollider:
   m_ObjectHideFlags: 0

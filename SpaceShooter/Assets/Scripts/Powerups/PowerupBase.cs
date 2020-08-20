@@ -26,29 +26,31 @@ public class PowerupBase : MonoBehaviour
     }
     protected virtual void Move()
     {
-        if (CheckCollision())
-        {
-            transform.position += transform.forward * movespeed * GameVariables.GameTime;
-        }
-        else
-        {
-            PowerUpPlayer();
-        }
+        
+        transform.position += transform.forward * movespeed * GameVariables.GameTime;
+        
     }
 
-    protected virtual bool CheckCollision()
-    {
-        Physics.Raycast(transform.position, transform.forward, out hit, (movespeed * GameVariables.GameTime) + myCollider.radius);
-        return hit.collider == null ? true : false;
-    }
+    //protected virtual bool CheckCollision()
+    //{
+    //    Physics.Raycast(transform.position, transform.forward, out hit, (movespeed * GameVariables.GameTime) + myCollider.radius);
+    //    return hit.collider == null ? true : false;
+    //}
 
     private void PowerUpPlayer()
     {
-        if(GameVariables.Player == hit.collider.gameObject.GetComponent<PlayerBehaviour>())
-        {
+        //PlayerBehaviour collision = hit.collider.gameObject.GetComponent<PlayerBehaviour>();
+
+        //if(collision != null && GameVariables.Player == collision)
+        //{
             GameVariables.Player.PowerUp(powerUpType);
             Destroy(gameObject);
-        }
+        //}
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PowerUpPlayer();
     }
 }
 

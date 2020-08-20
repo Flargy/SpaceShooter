@@ -19,8 +19,8 @@ public class GameVariables : MonoBehaviour
     [SerializeField] private List<Material> materials = new List<Material>();
     static public List<Material> PowerUpMaterials = new List<Material>();
 
-    [SerializeField] private GameObject powerUpPrefab;
-    static public GameObject PowerUpPrefab { get { return PowerUpPrefab; }}
+    [field: SerializeField] private GameObject powerUpPrefab;
+    static public GameObject PowerUpPrefab { get; private set; }
 
 
     static public Transform GetEnemy()
@@ -33,6 +33,7 @@ public class GameVariables : MonoBehaviour
 
     private void Awake()
     {
+        PowerUpPrefab = powerUpPrefab;
         if(instance == null)
         {
             instance = this;
