@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mines : MonoBehaviour
+public class Mines : DamageableObject
 {
     [SerializeField] private float moveSpeed = 2;
     [SerializeField] private Transform rotator;
     [SerializeField] private Transform[] firePoints;
     [SerializeField] private float fireRate = 1;
-    [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject projectile = null;
+    public BossBase parentBoss;
 
     private float fireTimer = 0;
 
-    void Update()
+    protected override void Update()
     {
         fireTimer += GameVariables.GameTime;
         if(fireTimer >= fireRate)
@@ -31,5 +32,14 @@ public class Mines : MonoBehaviour
             GameObject pew = Instantiate(projectile, trans.position, trans.rotation);
         }
         fireTimer = 0;
+    }
+
+    public override void TakeDamage(float dmg)
+    {
+        health--;
+        if (health == 0)
+        {
+            parentBoss.KillThisObject(gameObject);
+        }
     }
 }

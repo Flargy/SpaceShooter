@@ -31,8 +31,6 @@ public class EnemySerpentine : EnemyBase
         Movmentbehaviour();
     }
 
-
-
     protected override void Movmentbehaviour()
     {
         float distanceForward = movementSpeed * GameVariables.GameTime;
@@ -49,6 +47,16 @@ public class EnemySerpentine : EnemyBase
                 currentDirection.x *= -1;
             }
         }
-        
+    }
+
+    public override void TakeDamage(float dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+        {
+            SpawnPowerup();
+            EnemySpawner.Instance.RemoveEnemy();
+            Destroy(gameObject);
+        }
     }
 }

@@ -44,6 +44,12 @@ public class EnemyKamikaze : EnemyBase
         {
             transform.position += transform.forward.normalized * distance;
         }
+        else
+        {
+            GameVariables.Player.TakeDamage(1.0f);
+            EnemySpawner.Instance.RemoveEnemy();
+            Destroy(gameObject);
+        }
     }
 
     private bool CheckDistanceToPlayer()
@@ -56,6 +62,15 @@ public class EnemyKamikaze : EnemyBase
         return false;
     }
 
-
+    public override void TakeDamage(float dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+        {
+            SpawnPowerup();
+            EnemySpawner.Instance.RemoveEnemy();
+            Destroy(gameObject);
+        }
+    }
 
 }

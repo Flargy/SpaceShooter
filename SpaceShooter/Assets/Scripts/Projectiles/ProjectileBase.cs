@@ -60,20 +60,11 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     protected virtual void KillProjectile()
     {
-        EnemyBase enemy = hit.collider.gameObject.GetComponent<EnemyBase>();
-        PlayerBehaviour player = hit.collider.gameObject.GetComponent<PlayerBehaviour>();
-        if (enemy != null)
+        DamageableObject objectHiit = hit.collider.gameObject.GetComponent<DamageableObject>();
+        if (objectHiit != null)
         {
-            enemy.TakeDamage(Damage * damageMultiplier);
+            objectHiit.TakeDamage(Damage * damageMultiplier);
             ObjectPool.Instance.AddToList(gameObject);
-
-            return;
-        }
-        else if(player != null)
-        {
-            player.ReceiveDamage();
-            Destroy(projectileTransform.gameObject);
-            Destroy(this);
         }
         else
         {

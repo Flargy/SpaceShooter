@@ -97,6 +97,6 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnBoss()
     {
         bossActive = true;
-        Instantiate(bosses[wave % bosses.Count], enemySpawnPoints[0].position, enemySpawnPoints[0].rotation);
+        Instantiate(bosses[wave % bosses.Count], enemySpawnPoints[2].position, enemySpawnPoints[2].rotation);
     }
 }

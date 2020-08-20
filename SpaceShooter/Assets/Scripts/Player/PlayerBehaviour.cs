@@ -3,16 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : DamageableObject
 {
     [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private float currentFireRate = 0f;
+    [SerializeField] private float fireRate = 1;
     [SerializeField] private int baseDamage = 1;
-    [SerializeField] private int playerHealth = 3;
-    [SerializeField] private GameObject laserProjectile;
-    [SerializeField] private GameObject missileProjectile;
-    [SerializeField] private GameObject targetMissileProjectile;
-    [SerializeField] private GameObject droneProjectile;
     [SerializeField] private Transform projectileSpawn;
     [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
     [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
@@ -20,15 +15,15 @@ public class PlayerBehaviour : MonoBehaviour
     private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
 
     private int missileCounter = 0;
+    private float currentFireRate = 0f;
     private float currentDamage = 0f;
     private Vector3 direction = Vector3.zero;
-    private int fireRate = 1;
     private float cooldownTimer = 0f;
     private float immortalityTimer = 0f;
     
 
 
-    void Awake()
+    protected override void Awake()
     {
         upgrades.Add(PowerUpEnums.PowerEnum.SPREAD, 0);
         upgrades.Add(PowerUpEnums.PowerEnum.MISSILE, 0);
@@ -39,7 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
         currentFireRate = fireRate;
     }
 
-    void Update()
+    protected override void Update()
     {
         direction.x = Input.GetAxis("Horizontal");
         direction.z = Input.GetAxis("Vertical");
@@ -49,10 +44,6 @@ public class PlayerBehaviour : MonoBehaviour
             Fire();
         }
 
-        if (Input.GetKey(KeyCode.P))
-        {
-            ReceiveDamage();
-        }
         if (Input.GetKeyDown(KeyCode.U))
         {
             upgrades[PowerUpEnums.PowerEnum.SPREAD]++;
@@ -167,7 +158,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage()
+    public override void TakeDamage(float dmg)
     {
         if (immortalityTimer <= 1.5f)
         {
@@ -177,8 +168,8 @@ public class PlayerBehaviour : MonoBehaviour
         Debug.Log("damage");
 
         immortalityTimer = 0f;
-        playerHealth--;
-        if(playerHealth == 0)
+        health--;
+        if (health == 0)
         {
             Debug.Log("i dedad, you suck");
         }

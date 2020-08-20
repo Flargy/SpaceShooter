@@ -2,42 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossBase : MonoBehaviour
+public class BossBase : DamageableObject
 {
-    [SerializeField] protected float health;
     [SerializeField] protected float movementSpeed = 5;
-
-
-    [SerializeField] protected List<Transform> firePoints;
-    [SerializeField] protected GameObject Lazerbeam;
-    [SerializeField] protected GameObject mines;
+    [SerializeField] protected List<Transform> firePoints = new List<Transform>();
+    [SerializeField] protected GameObject Lazerbeam = null;
+    [SerializeField] protected GameObject mines = null;
 
     [SerializeField] protected float primaryFireRate = 0.5f;
     [SerializeField] protected float secondaryFireRate = 8;
 
+    [SerializeField] private List<ParticleSystem> explosions = new List<ParticleSystem>();
+
     protected float primaryTimer = 0;
     protected float secondaryTimer = 0;
-    protected bool immune = false;
+    protected bool immune = true;
     protected bool combatActivated = false;
     protected bool defeated = false;
-
+    protected List<GameObject> listOfMines = new List<GameObject>();
     protected RaycastHit hit;
-
-    // Start is called before the first frame update
-    protected void Start()
-    {
-        
-    }
-
+    protected float explosiontimer = 0;
     // Update is called once per frame
-    protected void Update()
+    protected override void Update()
     {
         if (!immune)
         {
-            primaryTimer += GameVariables.GameTime;
-            secondaryTimer += GameVariables.GameTime;
             if (!defeated)
             {
+                primaryTimer += GameVariables.GameTime;
+                secondaryTimer += GameVariables.GameTime;
                 if(primaryTimer >= primaryFireRate)
                 {
                     Fire();
@@ -49,9 +42,37 @@ public class BossBase : MonoBehaviour
                     secondaryTimer = 0;
                 }
             }
+            else
+            {
+                transform.position += transform.forward * movementSpeed * GameVariables.GameTime;
+                explosiontimer += GameVariables.GameTime;
+                if (explosiontimer >= 0.25f)
+                {
+                    StartExplosions();
+                    explosiontimer = 0;
+                }
+
+            }
+        }
+        else
+        {
+            transform.position += transform.forward * movementSpeed * GameVariables.GameTime;
+
+            if(transform.position.z <= 10)
+            {
+                immune = false;
+            }
         }
     }
 
+    public void KillThisObject(GameObject go)
+    {
+        if (listOfMines.Contains(go))
+        {
+            listOfMines.Remove(go);
+            Destroy(go);
+        }
+    }
 
     protected void Fire()
     {
@@ -62,19 +83,45 @@ public class BossBase : MonoBehaviour
     protected void SecondaryFire()
     {
         GameObject mine1 = Instantiate(mines, firePoints[3].position, firePoints[3].rotation);
+        mine1.GetComponent<Mines>().parentBoss = this;
+        listOfMines.Add(mine1);
         GameObject mine2 = Instantiate(mines, firePoints[4].position, firePoints[4].rotation);
+        listOfMines.Add(mine2);
+        mine2.GetComponent<Mines>().parentBoss = this;
     }
 
-    public void TakeDamage(float dmg)
+    public override void TakeDamage(float dmg)
     {
         if (!immune)
         {
             health -= dmg;
+            Debug.Log("Boss Has " + health + " left and my imune status was " + immune);
             if (health <= 0)
             {
+                List<GameObject> deadMines = listOfMines;
+                foreach(GameObject obj in deadMines)
+                {
+                    KillThisObject(obj);
+                }
+                deadMines.Clear();
+
+                OnDefeat();
                 EnemySpawner.Instance.BossDefeated();
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
+        }
+    }
+
+    private void StartExplosions()
+    {
+        int index = Random.Range(0, explosions.Count - 1);
+        if (explosions[index].isPlaying)
+        {
+            StartExplosions();
+        }
+        else
+        {
+            explosions[index].Play();
         }
     }
 
@@ -83,5 +130,7 @@ public class BossBase : MonoBehaviour
         defeated = true;
         immune = true;
         GetComponent<Collider>().enabled = false;
+        EnemySpawner.Instance.RemoveEnemy();
+        Destroy(gameObject, 5.0f);
     }
 }

@@ -2,38 +2,36 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : DamageableObject
 {
     [SerializeField] protected LayerMask allowedLayers;
-    [SerializeField] protected float health = 10;
 
     [SerializeField] protected float movementSpeed = 5;
 
-    [SerializeField] protected GameObject projectile;
-    [SerializeField] protected Transform projectileFire;
+    [SerializeField] protected GameObject projectile = null;
+    [SerializeField] protected Transform projectileFire = null;
 
     [SerializeField] protected float fireRate = 5;
-    [SerializeField] protected bool isBoss = false;
 
     [Header("A value from 1-100")]
-    [SerializeField] protected int powerUpSpawnrate;
+    [SerializeField] protected int powerUpSpawnrate = 25;
 
     private float coolDownTimer = 0;
-    protected float colliderRadius;
+    protected float colliderRadius = 0;
 
     protected RaycastHit hit;
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected override void Start()
     {
-        //float modifier = EnemySpawner.Instance.DifficultyMultiplier;
-        //health = health * modifier;
-        //fireRate = fireRate - 1 * 0.2f * modifier;
+        float modifier = EnemySpawner.Instance.DifficultyMultiplier;
+        health = health * modifier;
+        fireRate = fireRate - 1 * 0.2f * modifier;
         GameVariables.Instance.RegisterEnemy(gameObject);
         colliderRadius = GetComponent<SphereCollider>().radius;
     }
 
     // Update is called once per frame
-    protected virtual void Update()
+    protected override void Update()
     {
         Movmentbehaviour();
         coolDownTimer += GameVariables.GameTime;
@@ -44,15 +42,12 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void TakeDamage(float dmg)
+    public override void TakeDamage(float dmg)
     {
         health -= dmg;
         if (health <= 0)
         {
-            if (isBoss == false)
-                EnemySpawner.Instance.RemoveEnemy();
-            else
-                EnemySpawner.Instance.BossDefeated();
+            EnemySpawner.Instance.RemoveEnemy();
             Destroy(gameObject);
         }
     }

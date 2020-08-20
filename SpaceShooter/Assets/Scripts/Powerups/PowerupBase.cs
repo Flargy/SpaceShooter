@@ -8,13 +8,13 @@ public class PowerupBase : MonoBehaviour
 
     [SerializeField] private PowerUpEnums.PowerEnum powerUpType;
 
-    private CapsuleCollider myCollider; 
+    private CapsuleCollider myCollider = null; 
     RaycastHit hit;
     // Start is called before the first frame update
     void Awake()
     {
         powerUpType = (PowerUpEnums.PowerEnum)Random.Range(0, 5);
-        Debug.Log("Power up is " + powerUpType.ToString());
+        //Debug.Log("Power up is " + powerUpType.ToString());
         myCollider = GetComponent<CapsuleCollider>();
         GetComponent<Renderer>().sharedMaterial = GameVariables.PowerUpMaterials[(int)powerUpType];
     }
@@ -31,21 +31,10 @@ public class PowerupBase : MonoBehaviour
         
     }
 
-    //protected virtual bool CheckCollision()
-    //{
-    //    Physics.Raycast(transform.position, transform.forward, out hit, (movespeed * GameVariables.GameTime) + myCollider.radius);
-    //    return hit.collider == null ? true : false;
-    //}
-
     private void PowerUpPlayer()
     {
-        //PlayerBehaviour collision = hit.collider.gameObject.GetComponent<PlayerBehaviour>();
-
-        //if(collision != null && GameVariables.Player == collision)
-        //{
-            GameVariables.Player.PowerUp(powerUpType);
-            Destroy(gameObject);
-        //}
+        GameVariables.Player.PowerUp(powerUpType);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

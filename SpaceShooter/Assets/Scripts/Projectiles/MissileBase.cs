@@ -5,10 +5,9 @@ using UnityEngine;
 public class MissileBase : ProjectileBase
 {
 
-    [SerializeField] private float accelerate;
-    // Start is called before the first frame update
+    [SerializeField] private float accelerate = 0;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
         base.Awake();
     }

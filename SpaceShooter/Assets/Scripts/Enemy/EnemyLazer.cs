@@ -24,10 +24,18 @@ public class EnemyLazer : EnemySerpentine
         }
     }
 
-
-
     protected override void Fire()
     {
         base.Fire();
+    }
+
+    public override void TakeDamage(float dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+        {
+            EnemySpawner.Instance.RemoveEnemy();
+            Destroy(gameObject);
+        }
     }
 }
