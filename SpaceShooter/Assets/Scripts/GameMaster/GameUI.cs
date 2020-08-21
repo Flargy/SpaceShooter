@@ -17,7 +17,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Text currentWave = null;
     private int wave = 1;
 
-    [SerializeField] private SpriteRenderer background;
+    [SerializeField] private List<SpriteRenderer> background = new List<SpriteRenderer>();
     [SerializeField] private Image newBackgroundVisual;
     private int currentSpriteIndex = 0;
     [SerializeField] private List<Sprite> backgrounds = new List<Sprite>();
@@ -93,7 +93,10 @@ public class GameUI : MonoBehaviour
 
     public void Changebackground()
     {
-        background.sprite = backgrounds[currentSpriteIndex];
+        foreach(SpriteRenderer renderer in background)
+        {
+            renderer.sprite = backgrounds[currentSpriteIndex];
+        }
         ShowBackgrounds(false);
     }
 }

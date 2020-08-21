@@ -4,36 +4,41 @@ using UnityEngine;
 
 public class LoopingBackground : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> backgroundElements;
-    [SerializeField] private float loopSpeed = 10;
-    [SerializeField] private float travelDistance = 4;
+    [SerializeField] private Transform loopObject1;
+    [SerializeField] private Transform loopObject2;
 
-    private float distanceTraveled = 0;
-    private Vector3 startPosition;
-    private int numberOfBackgroundElements;
-    private int objectToMove = 0;
+    [SerializeField] private Transform startLoopPos;
+    [SerializeField] private Transform endLoopPos;
 
-    private void Awake()
+    [SerializeField] private float loopTime = 10;
+
+    private float loopTimerOne = 0.5f;
+    private float loopTimerTwo = 0f;
+
+
+    private void Start()
     {
-        numberOfBackgroundElements = backgroundElements.Count - 1;
-        startPosition = backgroundElements[numberOfBackgroundElements].transform.position;
+        loopObject1.position = Vector3.Lerp(startLoopPos.position, endLoopPos.position, loopTimerOne);
+        loopObject2.position = Vector3.Lerp(startLoopPos.position, endLoopPos.position, loopTimerTwo);
     }
 
     private void Update()
     {
-        if(distanceTraveled >= travelDistance)
-        {
-            backgroundElements[objectToMove % backgroundElements.Count].transform.position = startPosition;
-            distanceTraveled = 0;
-            objectToMove ++;
-        }
-        foreach(GameObject obj in backgroundElements)
-        {
-            distanceTraveled += loopSpeed * GameVariables.GameTime;
-            obj.transform.position += obj.transform.forward * (loopSpeed * GameVariables.GameTime);
-        }
+        loopTimerOne += GameVariables.GameTime / loopTime;
+        loopTimerTwo += GameVariables.GameTime / loopTime;
 
-
-
+        LoopTransforms();
     }
+
+
+    private void LoopTransforms()
+    {
+        loopObject1.position = Vector3.Lerp(startLoopPos.position, endLoopPos.position, loopTimerOne);
+        loopObject2.position = Vector3.Lerp(startLoopPos.position, endLoopPos.position, loopTimerTwo);
+
+        loopTimerOne = loopTimerOne >= 1 ? 0 : loopTimerOne;
+        loopTimerTwo = loopTimerTwo >= 1 ? 0 : loopTimerTwo;
+    }
+
+
 }

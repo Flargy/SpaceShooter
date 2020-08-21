@@ -90,4 +90,10 @@ public class GameVariables : MonoBehaviour
             projectiles.Remove(projectile);
         }
     }
+
+    public void ResetTheGame()
+    {
+        Player.ResetPlayer();
+        EnemySpawner.Instance.ResetTheGame();
+    }
 }

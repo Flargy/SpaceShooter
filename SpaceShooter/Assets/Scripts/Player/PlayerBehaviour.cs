@@ -23,6 +23,8 @@ public class PlayerBehaviour : DamageableObject
     private Vector3 direction = Vector3.zero;
     private float cooldownTimer = 0f;
     private float immortalityTimer = 0f;
+    private Vector3 startPos = Vector3.zero;
+    private float startHealth = 0;
     
 
 
@@ -35,6 +37,8 @@ public class PlayerBehaviour : DamageableObject
         GameVariables.PlayerTransform = transform;
         currentDamage = baseDamage;
         currentFireRate = fireRate;
+        startPos = transform.position;
+        startHealth = health;
     }
 
     protected override void Update()
@@ -254,6 +258,25 @@ public class PlayerBehaviour : DamageableObject
         if (health == 0)
         {
             Debug.Log("i dedad, you suck");
+        }
+    }
+
+
+    public void ResetPlayer()
+    {
+        upgrades.Clear();
+        upgrades.Add(PowerUpEnums.PowerEnum.SPREAD, 0);
+        upgrades.Add(PowerUpEnums.PowerEnum.MISSILE, 0);
+        upgrades.Add(PowerUpEnums.PowerEnum.DRONE, 0);
+        GameVariables.Player = this;
+        GameVariables.PlayerTransform = transform;
+        health = startHealth;
+        currentDamage = baseDamage;
+        currentFireRate = fireRate;
+        startPos = transform.position;
+        foreach (PlayerDrone drone in drones)
+        {
+            drone.ActivateDrone(false);
         }
     }
 }
