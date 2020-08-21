@@ -1,28 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BossBase : DamageableObject
 {
-    [SerializeField] protected float movementSpeed = 5;
+    [SerializeField] protected float movementSpeed = 5f;
     [SerializeField] protected List<Transform> firePoints = new List<Transform>();
     [SerializeField] protected GameObject Lazerbeam = null;
     [SerializeField] protected GameObject mines = null;
 
     [SerializeField] protected float primaryFireRate = 0.5f;
-    [SerializeField] protected float secondaryFireRate = 8;
+    [SerializeField] protected float secondaryFireRate = 8f;
+    [SerializeField] protected float destructionTime = 7.5f;
 
     [SerializeField] private List<ParticleSystem> explosions = new List<ParticleSystem>();
 
-    protected float primaryTimer = 0;
-    protected float secondaryTimer = 0;
+    protected float primaryTimer = 0f;
+    protected float secondaryTimer = 0f;
     protected bool immune = true;
     protected bool combatActivated = false;
     protected bool defeated = false;
     protected List<GameObject> listOfMines = new List<GameObject>();
     protected RaycastHit hit;
-    protected float explosiontimer = 0;
-    protected float multiplier = 2;
+    protected float explosiontimer = 0f;
+    protected float multiplier = 2f;
 
     // Update is called once per frame
     protected override void Update()
@@ -132,7 +132,7 @@ public class BossBase : DamageableObject
                 deadMines.Clear();
 
                 OnDefeat();
-                EnemySpawner.Instance.BossDefeated();
+                EnemySpawner.Instance.BossDefeated(destructionTime + 5f);
                 //Destroy(gameObject);
             }
         }

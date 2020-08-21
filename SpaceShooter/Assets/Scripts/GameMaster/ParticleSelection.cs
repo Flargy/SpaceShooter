@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ParticleSelection : MonoBehaviour
 {
@@ -14,15 +11,4 @@ public class ParticleSelection : MonoBehaviour
         ParticleSpawner.Instance.SpawnParticleEffect(particleType, gameObject.transform.position);
     }
 
-    public void Start()
-    {
-        SpawnParticles();
-        StartCoroutine(Delay());
-    }
-
-    private IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        SpawnParticles();
-    }
 }

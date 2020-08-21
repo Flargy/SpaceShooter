@@ -83,20 +83,26 @@ public class EnemySpawner : MonoBehaviour
         activeEnemies--;
     }
 
-    public void BossDefeated()
+    public void BossDefeated(float waveDelayTimer)
     {
-        Debug.Log("boss defeated");
-        bossActive = false;
         wave++;
         killsToBoss = killsToBoss * 2;
         DifficultyMultiplier = DifficultyMultiplier * 1.5f;
         maxEnemies += 2;
         spawnTimer = 0;
+        StartCoroutine(WaveDelayAfterBossKill(waveDelayTimer));
     }
 
     private void SpawnBoss()
     {
         bossActive = true;
         Instantiate(bosses[wave % bosses.Count], enemySpawnPoints[2].position, enemySpawnPoints[2].rotation);
+    }
+
+    private IEnumerator WaveDelayAfterBossKill(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        bossActive = false;
+
     }
 }
