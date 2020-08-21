@@ -776,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c5e2e40f1bf374fa325912de8dd2de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  health: 100
   movementSpeed: 0.5
   firePoints:
   - {fileID: 7666532552297997664}
@@ -786,8 +786,8 @@ MonoBehaviour:
   - {fileID: 5380484878546867408}
   Lazerbeam: {fileID: 3907442149975079042, guid: a19733183009f0c438843d40aa64d4d2, type: 3}
   mines: {fileID: 633307822532055603, guid: a0caa770c2d9bbe489141a246c9918b0, type: 3}
-  primaryFireRate: 0.8
-  secondaryFireRate: 10
+  primaryFireRate: 0.5
+  secondaryFireRate: 13
   explosions:
   - {fileID: 5476976224780923545}
   - {fileID: 8583706889395334869}

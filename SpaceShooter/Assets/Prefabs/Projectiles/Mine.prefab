@@ -96,7 +96,7 @@ MonoBehaviour:
   - {fileID: 7675857742726674437}
   - {fileID: 6983737532449411235}
   - {fileID: 2738752059239460055}
-  fireRate: 1
+  fireRate: 1.5
   projectile: {fileID: 3907442149975079042, guid: a19733183009f0c438843d40aa64d4d2, type: 3}
   parentBoss: {fileID: 0}
 --- !u!1 &2819930646550671765

@@ -90,24 +90,4 @@ public class GameVariables : MonoBehaviour
             projectiles.Remove(projectile);
         }
     }
-
-
-    //GameUI actions
-
-    static public void PlayerTookDamage()
-    {
-        GameUI.UpdatePlayerHealth();
-    }
-
-
-    static public void AssignBossHealth(float health)
-    {
-        GameUI.AssignBossHealth(health);
-    }
-
-    static public void UpdateBossHealth(float damage)
-    {
-        Debug.Log("UI Update boss with dmg: " + damage);
-        GameUI.UpdateBossSlider(damage);
-    }
 }

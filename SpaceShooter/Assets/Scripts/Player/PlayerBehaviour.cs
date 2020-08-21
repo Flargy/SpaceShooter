@@ -11,6 +11,8 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private Transform projectileSpawn;
     [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
     [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
+    [SerializeField] private Transform droneHolder;
+    [SerializeField] private List<PlayerDrone> drones = new List<PlayerDrone>();
     [SerializeField] private GameObject playerMesh = null;
 
     private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
@@ -43,30 +45,28 @@ public class PlayerBehaviour : DamageableObject
         }
 
         direction.x = Input.GetAxis("Horizontal");
-        if(direction.x > 0)
-        {
-            playerMesh.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-20));
-        }
-        else if (direction.x < 0)
-        {
-            playerMesh.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 20));
-        }
-        else
-        {
-            playerMesh.transform.localRotation = Quaternion.identity;
-        }
         direction.z = Input.GetAxis("Vertical");
+
+        droneHolder.RotateAround(droneHolder.transform.position, transform.up, 90 * GameVariables.GameTime);
+
+        playerMesh.transform.rotation = Quaternion.Euler(new Vector3(direction.x * 10, 0, direction.z * 10));
+
         cooldownTimer += GameVariables.GameTime;
         if (Input.GetKey(KeyCode.Space))
         {
             Fire();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameVariables.GameUI.PauseGame();
+        }
+
         if (Input.GetKeyDown(KeyCode.U))
         {
-            upgrades[PowerUpEnums.PowerEnum.SPREAD]++;
-            upgrades[PowerUpEnums.PowerEnum.MISSILE]++;
-            //upgrades[PowerUpEnums.PowerEnum.DRONE]++;
+            PowerUp(PowerUpEnums.PowerEnum.SPREAD);
+            PowerUp(PowerUpEnums.PowerEnum.MISSILE);
+            PowerUp(PowerUpEnums.PowerEnum.DRONE);
             Debug.Log("Vale upgrae to :" + upgrades[PowerUpEnums.PowerEnum.DRONE]);
         }
         Move();
@@ -107,44 +107,66 @@ public class PlayerBehaviour : DamageableObject
         {
             missileCounter += 1;
             InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), projectileSpawn);
-            int index = 0;
-            for(int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.SPREAD]; i++)
+
+            FireLaser();
+            if (missileCounter >= 5 && upgrades[PowerUpEnums.PowerEnum.MISSILE] > 0)
             {
-                InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
-                index++;
-                InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
-                index++;
-                if (index >= 6)
+                FireMissile();
+            }
+
+            DroneFire();
+            cooldownTimer = 0;
+        }
+    }
+
+    private void FireLaser()
+    {
+        int index = 0;
+        for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.SPREAD]; i++)
+        {
+            InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
+            index++;
+            InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
+            index++;
+            if (index >= SpreadSpawPoints.Count)
+            {
+                break;
+            }
+        }
+    }
+
+    private void FireMissile()
+    {
+        int index = 0;
+
+            for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.MISSILE]; i++)
+            {
+                if (index <= 1)
+                {
+                    InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
+                    index++;
+                    InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
+                    index++;
+                }
+                else
+                {
+                    InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
+                    index++;
+                    InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
+                    index++;
+                }
+
+                if (index >= missileSpawnpoints.Count)
                     break;
             }
-            index = 0;
-            if(missileCounter >=5 && upgrades[PowerUpEnums.PowerEnum.MISSILE] > 0)
-            {
-                for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.MISSILE]; i++)
-                {
-                    if(index <= 1)
-                    {
-                        InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
-                        index++;
-                        InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
-                        index++;
-                    }
-                    else
-                    {
-                        InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
-                        index++;
-                        InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
-                        index++;
-                    }
+        missileCounter = 0;
+    }
 
-
-                    if (index >= 6)
-                        break;
-                }
-                missileCounter = 0;
-            }
-
-            cooldownTimer = 0;
+    private void DroneFire()
+    {
+        foreach(PlayerDrone drone in drones)
+        {
+            drone.Fire(currentDamage);
         }
     }
 
@@ -157,27 +179,62 @@ public class PlayerBehaviour : DamageableObject
             movementVector = GameBoundaries.Instance.GetLocationInBoundary(movementVector);
         }
         
-            transform.position = movementVector;
-
+        transform.position = movementVector;
     }
 
     public void PowerUp(PowerUpEnums.PowerEnum powerEnum)
     {
+
         if (upgrades.ContainsKey(powerEnum))
         {
-            upgrades[powerEnum]++;
-            Debug.Log("Upgraded " + powerEnum.ToString());
-        }
-        else if(powerEnum == PowerUpEnums.PowerEnum.DAMAGE)
-        {
-            currentDamage += 0.1f * baseDamage;
-            Debug.Log("Upgraded " + powerEnum.ToString());
+            int currentUppgrade = 0;
 
+            if (powerEnum == PowerUpEnums.PowerEnum.DRONE)
+            {
+                currentUppgrade = upgrades[powerEnum]++;
+                foreach (PlayerDrone drone in drones)
+                {
+                    if (!drone.Active)
+                    {
+                        drone.ActivateDrone(true);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                currentUppgrade = upgrades[powerEnum]++;
+                Debug.Log("Upgraded " + powerEnum.ToString());
+            }
+
+            foreach (PowerUpEnums.PowerEnum entry in Enum.GetValues(typeof(PowerUpEnums.PowerEnum)))
+            {
+                if (upgrades.ContainsKey(entry))
+                {
+                    if (entry == powerEnum)
+                    {
+                        upgrades[entry] = currentUppgrade;
+                    }
+                    else
+                    {
+                        upgrades[entry] = 0;
+                    }
+                }
+            }
         }
-        else if (powerEnum == PowerUpEnums.PowerEnum.FIRERATE)
+        else
         {
-            currentFireRate -= 0.05f * fireRate;
-            Debug.Log("Upgraded " + powerEnum.ToString());
+            if (powerEnum == PowerUpEnums.PowerEnum.DAMAGE)
+            {
+                currentDamage += 0.1f * baseDamage;
+                Debug.Log("Upgraded " + powerEnum.ToString());
+
+            }
+            else if (powerEnum == PowerUpEnums.PowerEnum.FIRERATE)
+            {
+                currentFireRate -= 0.05f * fireRate;
+                Debug.Log("Upgraded " + powerEnum.ToString());
+            }
 
         }
     }
@@ -193,6 +250,7 @@ public class PlayerBehaviour : DamageableObject
 
         immortalityTimer = 0f;
         health--;
+        GameVariables.GameUI.UpdatePlayerHealth();
         if (health == 0)
         {
             Debug.Log("i dedad, you suck");
