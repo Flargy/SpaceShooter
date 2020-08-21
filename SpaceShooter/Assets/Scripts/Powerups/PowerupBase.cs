@@ -16,7 +16,9 @@ public class PowerupBase : MonoBehaviour
         powerUpType = (PowerUpEnums.PowerEnum)Random.Range(0, 5);
         //Debug.Log("Power up is " + powerUpType.ToString());
         myCollider = GetComponent<CapsuleCollider>();
-        GetComponent<Renderer>().sharedMaterial = GameVariables.PowerUpMaterials[(int)powerUpType];
+        GameObject obj = Instantiate(GameVariables.PowerUpCrate[(int)powerUpType]);
+        obj.transform.SetParent(transform);
+        obj.transform.localPosition = Vector3.zero;
     }
 
     // Update is called once per frame
