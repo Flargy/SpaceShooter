@@ -9,7 +9,7 @@ public class GameVariables : MonoBehaviour
 
     public static GameVariables Instance { get { return instance; } }
 
-    static public float GameTime { get; set; }
+    static public float GameTime { get; private set; }
     static public Transform PlayerTransform { get; set; }
     static public PlayerBehaviour Player { get; set; }
 
@@ -18,9 +18,12 @@ public class GameVariables : MonoBehaviour
     static private List<GameObject> projectiles = new List<GameObject>();
     [SerializeField] private List<Material> materials = new List<Material>();
     static public List<Material> PowerUpMaterials = new List<Material>();
+    static public GameUI gameUI;
 
     [field: SerializeField] private GameObject powerUpPrefab;
     static public GameObject PowerUpPrefab { get; private set; }
+
+    static public bool gameRunning { get; set; } = false;
 
 
     static public Transform GetEnemy()
@@ -42,8 +45,20 @@ public class GameVariables : MonoBehaviour
     }
     private void Update()
     {
-        GameTime = Time.deltaTime;
+        if (gameRunning)
+        {
+            GameTime = Time.deltaTime;
+        }
+        else
+        {
+            GameTime = 0;
+        }
     }
+
+    public void PlayerTookDamage()
+    {
+        gameUI.UpdatePlayerHealth();
+    } 
 
     public void RegisterEnemy(GameObject enemy)
     {

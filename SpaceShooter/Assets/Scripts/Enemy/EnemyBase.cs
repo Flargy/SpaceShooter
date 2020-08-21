@@ -1,22 +1,22 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
 public class EnemyBase : DamageableObject
 {
     [SerializeField] protected LayerMask allowedLayers;
-
+    [SerializeField] protected int scoreValie = 0;
     [SerializeField] protected float movementSpeed = 5;
 
     [SerializeField] protected GameObject projectile = null;
-    [SerializeField] protected Transform projectileFire = null;
+    [SerializeField] protected List<Transform> projectileFirePoints = new List<Transform>();
 
     [SerializeField] protected float fireRate = 5;
 
     [Header("A value from 1-100")]
     [SerializeField] protected int powerUpSpawnrate = 25;
 
-    private float coolDownTimer = 0;
+    protected float coolDownTimer = 0;
     protected float colliderRadius = 0;
 
     protected RaycastHit hit;
@@ -54,8 +54,12 @@ public class EnemyBase : DamageableObject
 
     protected virtual void Fire()
     {
-        GameObject pew = Instantiate(projectile, projectileFire.position, projectileFire.rotation);
-        pew.transform.LookAt(GameVariables.PlayerTransform);
+        foreach(Transform trans in projectileFirePoints)
+        {
+            GameObject pew = Instantiate(projectile, trans.position, trans.rotation);
+            pew.transform.LookAt(GameVariables.PlayerTransform);
+        }
+
     }
 
     protected virtual void Movmentbehaviour()

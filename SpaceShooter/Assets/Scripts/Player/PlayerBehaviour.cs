@@ -11,6 +11,7 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private Transform projectileSpawn;
     [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
     [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
+    [SerializeField] private GameObject playerMesh = null;
 
     private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
 
@@ -36,7 +37,24 @@ public class PlayerBehaviour : DamageableObject
 
     protected override void Update()
     {
+        if (!GameVariables.gameRunning)
+        {
+            return;
+        }
+
         direction.x = Input.GetAxis("Horizontal");
+        if(direction.x > 0)
+        {
+            playerMesh.transform.localRotation = Quaternion.Euler(new Vector3(0,0,-20));
+        }
+        else if (direction.x < 0)
+        {
+            playerMesh.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 20));
+        }
+        else
+        {
+            playerMesh.transform.localRotation = Quaternion.identity;
+        }
         direction.z = Input.GetAxis("Vertical");
         cooldownTimer += GameVariables.GameTime;
         if (Input.GetKey(KeyCode.Space))
