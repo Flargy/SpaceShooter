@@ -27,7 +27,7 @@ public class MissileBase : ProjectileBase
         }
         else
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
             base.KillProjectile();
         }
 

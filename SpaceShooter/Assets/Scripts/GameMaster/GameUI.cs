@@ -7,6 +7,7 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] private GameObject menuPanel = null;
     [SerializeField] private GameObject backgroundPanel = null;
+    [SerializeField] private Slider bossSlider;
 
     [SerializeField] private Text playerHealth = null;
     private int health = 3;
@@ -26,6 +27,24 @@ public class GameUI : MonoBehaviour
         health -= 1;
         playerHealth.text = "" + health;
     }
+
+    public void AssignBossHealth(float health)
+    {
+        bossSlider.gameObject.SetActive(true);
+        bossSlider.maxValue = health;
+        bossSlider.value = bossSlider.maxValue;
+    }
+
+    public void UpdateBossSlider(float damage)
+    {
+        bossSlider.value -= damage;
+        if(bossSlider.value <= bossSlider.minValue)
+        {
+            Debug.Log("Boss is dead");
+            bossSlider.gameObject.SetActive(false);
+        }
+    }
+
 
     public void UpdatePlayerScore(int point)
     {

@@ -22,6 +22,8 @@ public class BossBase : DamageableObject
     protected List<GameObject> listOfMines = new List<GameObject>();
     protected RaycastHit hit;
     protected float explosiontimer = 0;
+    protected float multiplier = 2;
+
     // Update is called once per frame
     protected override void Update()
     {
@@ -41,6 +43,7 @@ public class BossBase : DamageableObject
                     SecondaryFire();
                     secondaryTimer = 0;
                 }
+                MoveSideToSide();
             }
             else
             {
@@ -56,14 +59,35 @@ public class BossBase : DamageableObject
         }
         else
         {
-            transform.position += transform.forward * movementSpeed * GameVariables.GameTime;
-
-            if(transform.position.z <= 10)
-            {
-                immune = false;
-            }
+            MoveForward();
         }
     }
+
+
+    private void MoveForward()
+    {
+        transform.position += transform.forward * movementSpeed * GameVariables.GameTime;
+
+        if (transform.position.z <= 10)
+        {
+            immune = false;
+            GameVariables.AssignBossHealth(health);
+        }
+    }
+
+    private void MoveSideToSide()
+    {
+        transform.position += transform.right * movementSpeed * GameVariables.GameTime * multiplier;
+        if (transform.position.x >= 5)
+        {
+            multiplier = -multiplier;
+        }
+        else if (transform.position.x <= -5)
+        {
+            multiplier = -multiplier;
+        }
+    }
+
 
     public void KillThisObject(GameObject go)
     {
@@ -95,7 +119,9 @@ public class BossBase : DamageableObject
         if (!immune)
         {
             health -= dmg;
+            GameVariables.UpdateBossHealth(dmg);
             Debug.Log("Boss Has " + health + " left and my imune status was " + immune);
+
             if (health <= 0)
             {
                 List<GameObject> deadMines = listOfMines;
