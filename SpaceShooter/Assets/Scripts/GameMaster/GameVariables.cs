@@ -94,6 +94,6 @@ public class GameVariables : MonoBehaviour
     public void ResetTheGame()
     {
         Player.ResetPlayer();
-        EnemySpawner.Instance.ResetTheGame();
+       //EnemySpawner.Instance.ResetTheGame();
     }
 }
