@@ -150,8 +150,14 @@ public class PlayerBehaviour : DamageableObject
 
     private void Move()
     {
-
-        transform.position += direction * movementSpeed * GameVariables.GameTime;
+        Vector3 movementVector = transform.position + direction * movementSpeed * GameVariables.GameTime;
+        if (GameBoundaries.Instance.InsideBoundaries(movementVector) == false)
+        {
+            
+            movementVector = GameBoundaries.Instance.GetLocationInBoundary(movementVector);
+        }
+        
+            transform.position = movementVector;
 
     }
 
