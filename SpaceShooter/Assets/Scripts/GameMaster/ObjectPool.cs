@@ -60,11 +60,15 @@ public class ObjectPool : MonoBehaviour
        if(obj != null)
         {
             RemoveFromList(ref LazerPool ,obj);
-            return obj;
+        }
+       else
+        {
+            obj = Instantiate(LazerPoolObject);
+            obj.SetActive(false);
         }
         
 
-        return null;
+        return obj;
     }
 
     public GameObject GetPooledMisslie()
@@ -75,8 +79,13 @@ public class ObjectPool : MonoBehaviour
             RemoveFromList(ref MissilePool, obj);
             return obj;
         }
+        else
+        {
+            obj = Instantiate(MissilePoolObject);
+            obj.SetActive(false);
+        }
 
-        return null;
+        return obj;
     }
 
     public GameObject GetPooledHomingMissile()
@@ -87,8 +96,13 @@ public class ObjectPool : MonoBehaviour
             RemoveFromList(ref HomingMissilePool, obj);
             return obj;
         }
+        else
+        {
+            obj = Instantiate(HomingMissilePoolObject);
+            obj.SetActive(false);
+        }
 
-        return null;
+        return obj;
     }
 
     private void RemoveFromList(ref List<GameObject> list ,GameObject obj)
