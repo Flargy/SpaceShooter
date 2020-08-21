@@ -71,7 +71,7 @@ public class BossBase : DamageableObject
         if (transform.position.z <= 10)
         {
             immune = false;
-            GameVariables.AssignBossHealth(health);
+            GameVariables.GameUI.AssignBossHealth(health);
         }
     }
 
@@ -119,7 +119,7 @@ public class BossBase : DamageableObject
         if (!immune)
         {
             health -= dmg;
-            GameVariables.UpdateBossHealth(dmg);
+            GameVariables.GameUI.UpdateBossSlider(dmg);
             Debug.Log("Boss Has " + health + " left and my imune status was " + immune);
 
             if (health <= 0)

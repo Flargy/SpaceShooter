@@ -16,8 +16,8 @@ public class GameVariables : MonoBehaviour
     static private List<GameObject> enemies = new List<GameObject>();
 
     static private List<GameObject> projectiles = new List<GameObject>();
-    [SerializeField] private List<Material> materials = new List<Material>();
-    static public List<Material> PowerUpMaterials = new List<Material>();
+    [SerializeField] private List<GameObject> powerUps = new List<GameObject>();
+    static public List<GameObject> PowerUps = new List<GameObject>();
     [SerializeField] private GameUI gameUI;
     static public GameUI GameUI { get; private set; }
 
@@ -33,7 +33,7 @@ public class GameVariables : MonoBehaviour
         {
             instance = this;
         }
-        PowerUpMaterials = materials;
+        PowerUps = powerUps;
         GameUI = gameUI;
     }
     private void Update()
