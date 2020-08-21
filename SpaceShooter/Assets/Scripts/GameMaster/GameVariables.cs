@@ -18,21 +18,13 @@ public class GameVariables : MonoBehaviour
     static private List<GameObject> projectiles = new List<GameObject>();
     [SerializeField] private List<Material> materials = new List<Material>();
     static public List<Material> PowerUpMaterials = new List<Material>();
-    static public GameUI gameUI;
+    [SerializeField] private GameUI gameUI;
+    static public GameUI GameUI { get; private set; }
 
     [field: SerializeField] private GameObject powerUpPrefab;
     static public GameObject PowerUpPrefab { get; private set; }
 
     static public bool gameRunning { get; set; } = false;
-
-
-    static public Transform GetEnemy()
-    {
-        if (enemies.Count > 0)
-            return enemies[0].transform;
-        else
-            return null;
-    }
 
     private void Awake()
     {
@@ -42,6 +34,7 @@ public class GameVariables : MonoBehaviour
             instance = this;
         }
         PowerUpMaterials = materials;
+        GameUI = gameUI;
     }
     private void Update()
     {
@@ -55,10 +48,13 @@ public class GameVariables : MonoBehaviour
         }
     }
 
-    public void PlayerTookDamage()
+    static public Transform GetEnemy()
     {
-        gameUI.UpdatePlayerHealth();
-    } 
+        if (enemies.Count > 0)
+            return enemies[0].transform;
+        else
+            return null;
+    }
 
     public void RegisterEnemy(GameObject enemy)
     {
@@ -93,5 +89,25 @@ public class GameVariables : MonoBehaviour
         {
             projectiles.Remove(projectile);
         }
+    }
+
+
+    //GameUI actions
+
+    static public void PlayerTookDamage()
+    {
+        GameUI.UpdatePlayerHealth();
+    }
+
+
+    static public void AssignBossHealth(float health)
+    {
+        GameUI.AssignBossHealth(health);
+    }
+
+    static public void UpdateBossHealth(float damage)
+    {
+        Debug.Log("UI Update boss with dmg: " + damage);
+        GameUI.UpdateBossSlider(damage);
     }
 }

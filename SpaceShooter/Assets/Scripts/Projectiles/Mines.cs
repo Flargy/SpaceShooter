@@ -22,7 +22,7 @@ public class Mines : DamageableObject
         }
         transform.position += transform.forward * moveSpeed * GameVariables.GameTime;
 
-        rotator.RotateAround(transform.position, transform.up, 2f);
+        rotator.RotateAround(transform.position, transform.up, 0.2f);
     }
 
     void Fire()
