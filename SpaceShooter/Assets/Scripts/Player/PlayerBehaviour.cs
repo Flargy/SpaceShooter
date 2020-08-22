@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private Transform droneHolder;
     [SerializeField] private List<PlayerDrone> drones = new List<PlayerDrone>();
     [SerializeField] private GameObject playerMesh = null;
+    [SerializeField] private bool multipleUpgradesAllowed = false;
 
     private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
 
@@ -211,17 +211,20 @@ public class PlayerBehaviour : DamageableObject
                 Debug.Log("Upgraded " + powerEnum.ToString());
             }
 
-            foreach (PowerUpEnums.PowerEnum entry in Enum.GetValues(typeof(PowerUpEnums.PowerEnum)))
+            if(multipleUpgradesAllowed == false)
             {
-                if (upgrades.ContainsKey(entry))
+                foreach (PowerUpEnums.PowerEnum entry in Enum.GetValues(typeof(PowerUpEnums.PowerEnum)))
                 {
-                    if (entry == powerEnum)
+                    if (upgrades.ContainsKey(entry))
                     {
-                        upgrades[entry] = currentUppgrade;
-                    }
-                    else
-                    {
-                        upgrades[entry] = 0;
+                        if (entry == powerEnum)
+                        {
+                            upgrades[entry] = currentUppgrade;
+                        }
+                        else
+                        {
+                            upgrades[entry] = 0;
+                        }
                     }
                 }
             }
