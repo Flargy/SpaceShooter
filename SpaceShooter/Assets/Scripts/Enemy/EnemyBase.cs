@@ -26,6 +26,10 @@ public class EnemyBase : DamageableObject
     // Start is called before the first frame update
     protected override void Start()
     {
+        if (projectileFirePoints.Count == 0)
+        {
+            projectileFirePoints.Add(transform);
+        }
         float modifier = EnemySpawner.Instance.DifficultyMultiplier;
         health = health * modifier;
         fireRate = fireRate - 1 * 0.2f * modifier;

@@ -20,10 +20,11 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     public Type ProjectileType;
 
-
     protected RaycastHit hit;
 
     protected SphereCollider sphere;
+
+    [SerializeField] private bool playerUse = false;
 
     protected virtual void Awake()
     {
@@ -48,6 +49,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         }
         else
         {
+            
             KillProjectile();
         }
         
@@ -66,7 +68,10 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         if (objectHiit != null)
         {
             objectHiit.TakeDamage(Damage * damageMultiplier);
-            ObjectPool.Instance.AddToList(gameObject);
+            if (playerUse)
+            {
+                ObjectPool.Instance.AddToList(gameObject);
+            }
         }
         else
         {

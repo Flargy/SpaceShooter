@@ -117,6 +117,7 @@ MonoBehaviour:
   <damageMultiplier>k__BackingField: 1
   audioStrength: 0.03
   ProjectileType: 0
+  playerUse: 1
 --- !u!1001 &2382843418214132435
 PrefabInstance:
   m_ObjectHideFlags: 0
