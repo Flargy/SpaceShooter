@@ -13,6 +13,9 @@ public class EnemyBase : DamageableObject
 
     [SerializeField] protected float fireRate = 5;
 
+    [SerializeField] protected AudioController.ClipName audioType;
+    [SerializeField] protected float audioStrength = 1.0f;
+
     [Header("A value from 1-100")]
     [SerializeField] protected int powerUpSpawnrate = 25;
 
@@ -47,6 +50,8 @@ public class EnemyBase : DamageableObject
         health -= dmg;
         if (health <= 0)
         {
+            AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
+            ParticleSpawner.Instance.SpawnParticleEffect(ParticleSpawner.Particles.Explosion, transform.position);
             EnemySpawner.Instance.RemoveEnemy();
             Destroy(gameObject);
         }

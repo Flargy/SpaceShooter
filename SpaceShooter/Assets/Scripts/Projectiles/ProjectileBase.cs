@@ -10,6 +10,8 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     [field: SerializeField] protected float projectileSpeed { get; set; }
     [field: SerializeField] protected Transform projectileTransform { get; set; }
     [field: SerializeField] protected float damageMultiplier { get; set; }
+    [field: SerializeField] protected AudioController.ClipName audioType {get;}
+    [field: SerializeField] protected float audioStrength = 1.0f;
     protected float StartSpeed { get; set; }
 
     public float Damage { get; set; }
@@ -72,6 +74,11 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         }
 
         GameVariables.Instance.RemoveProjectile(projectileTransform.gameObject);
+    }
+
+    public void OnEnable()
+    {
+        AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
     }
 
 }

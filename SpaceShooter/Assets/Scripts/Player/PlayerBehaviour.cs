@@ -71,7 +71,7 @@ public class PlayerBehaviour : DamageableObject
             PowerUp(PowerUpEnums.PowerEnum.SPREAD);
             PowerUp(PowerUpEnums.PowerEnum.MISSILE);
             PowerUp(PowerUpEnums.PowerEnum.DRONE);
-            Debug.Log("Vale upgrae to :" + upgrades[PowerUpEnums.PowerEnum.DRONE]);
+            Debug.Log("Value upgraded to :" + upgrades[PowerUpEnums.PowerEnum.DRONE]);
         }
         Move();
 
@@ -257,6 +257,7 @@ public class PlayerBehaviour : DamageableObject
         GameVariables.GameUI.UpdatePlayerHealth();
         if (health == 0)
         {
+            AudioController.Instance.GenerateAudio(AudioController.ClipName.PlayerDestroyed, transform.position, 0.1f);
             Debug.Log("i dedad, you suck");
         }
     }

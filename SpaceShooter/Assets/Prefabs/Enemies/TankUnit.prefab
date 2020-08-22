@@ -154,6 +154,7 @@ MonoBehaviour:
   allowedLayers:
     serializedVersion: 2
     m_Bits: 10497
+  scoreValie: 0
   movementSpeed: 1
   projectile: {fileID: 3907442149975079042, guid: a19733183009f0c438843d40aa64d4d2, type: 3}
   projectileFirePoints:
@@ -163,6 +164,8 @@ MonoBehaviour:
   - {fileID: 8541511846035624189}
   - {fileID: 1121676673241217636}
   fireRate: 3
+  audioType: 5
+  audioStrength: 0.1
   powerUpSpawnrate: 35
 --- !u!1 &8191270843677362939
 GameObject:

@@ -139,6 +139,8 @@ MonoBehaviour:
   projectile: {fileID: 3907442149975079042, guid: a19733183009f0c438843d40aa64d4d2, type: 3}
   projectileFirePoints: []
   fireRate: 5
+  audioType: 5
+  audioStrength: 0.1
   powerUpSpawnrate: 10
   horizontalMovespeed: 3
   HorizontalDistace: 5

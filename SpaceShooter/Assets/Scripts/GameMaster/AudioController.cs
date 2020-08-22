@@ -15,6 +15,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource sourcePrefab;
 
     private List<AudioSource> sources;
+    private float audioDelay;
 
 
     private void Awake()
@@ -26,31 +27,49 @@ public class AudioController : MonoBehaviour
             instance = this;
         }
     }
+    private void Update()
+    {
+        audioDelay += GameVariables.GameTime;
+    }
 
     public void GenerateAudio(ClipName type ,Vector3 location, float strength)
     {
+        if (type == ClipName.EnemyDestroy)
+        {
+            Debug.Log("rek enemy");
+        }
+        if ((type == ClipName.Laser || type == ClipName.Missile) && audioDelay < 0.1f)
+        {
+            return;
+        }
+        if(strength == 0)
+        {
+            return;
+        }
+        audioDelay = audioDelay > 0.1f ? 0.0f : audioDelay;
         AudioSource audio;
         AudioClip clip = clips[(int)type];
         if(sources.Count > 0)
         {
             audio = sources[0];
-            RemoveFromList(audio);
         }
         else
         {
             audio = Instantiate(sourcePrefab);
         }
+        RemoveFromList(audio, clip.length);
         audio.gameObject.SetActive(true);
         audio.transform.position = location;
         audio.PlayOneShot(clip, strength);
     }
 
-    private void RemoveFromList(AudioSource source)
+    private void RemoveFromList(AudioSource source, float duration)
     {
         if (sources.Contains(source))
         {
             sources.Remove(source);
         }
+        StartCoroutine(AddToListAfterDelay(source, duration));
     }
 
     private void AddToList(AudioSource source)
@@ -59,9 +78,9 @@ public class AudioController : MonoBehaviour
         sources.Add(source);
     }
 
-    private IEnumerator AddToListAfterDelay(AudioSource source, AudioClip clip)
+    private IEnumerator AddToListAfterDelay(AudioSource source, float duration)
     {
-        yield return new WaitForSeconds(clip.length);
+        yield return new WaitForSeconds(duration);
         AddToList(source);
     }
 }

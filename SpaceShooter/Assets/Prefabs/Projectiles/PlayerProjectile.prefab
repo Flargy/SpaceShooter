@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5881743993021882910}
   - component: {fileID: 6934432057970093644}
   m_Layer: 11
-  m_Name: Sphere
+  m_Name: PlayerProjectile
   m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,6 +115,7 @@ MonoBehaviour:
   <projectileSpeed>k__BackingField: 15
   <projectileTransform>k__BackingField: {fileID: 6477066122903019773}
   <damageMultiplier>k__BackingField: 1
+  audioStrength: 0.03
   ProjectileType: 0
 --- !u!1001 &2382843418214132435
 PrefabInstance:

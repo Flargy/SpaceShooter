@@ -9,11 +9,13 @@ public class ParticleSpawner : MonoBehaviour
 
     static public ParticleSpawner Instance { get { return instance; } }
 
-    [SerializeField] private Dictionary<ParticleSelection.Particles, List<ParticleSystem>> particleCollection;
+    public enum Particles { Explosion }
+
+    [SerializeField] private Dictionary<Particles, List<ParticleSystem>> particleCollection;
     [SerializeField] private List<ParticleSystem> particles;
 
     [SerializeField] private int cachedParticles = 15;
-    private Dictionary<ParticleSelection.Particles, ParticleSystem> particleTypes;
+    private Dictionary<Particles, ParticleSystem> particleTypes;
 
     private void Awake()
     {
@@ -21,11 +23,11 @@ public class ParticleSpawner : MonoBehaviour
         {
             instance = this;
         }
-        particleTypes = new Dictionary<ParticleSelection.Particles, ParticleSystem>();
-        particleCollection = new Dictionary<ParticleSelection.Particles, List<ParticleSystem>>();
+        particleTypes = new Dictionary<Particles, ParticleSystem>();
+        particleCollection = new Dictionary<Particles, List<ParticleSystem>>();
         int index = 0;
 
-        foreach (ParticleSelection.Particles type in Enum.GetValues(typeof(ParticleSelection.Particles)))
+        foreach (Particles type in Enum.GetValues(typeof(Particles)))
         {
             particleTypes.Add(type, particles[index]);
             particleCollection.Add(type, new List<ParticleSystem>());
@@ -42,7 +44,7 @@ public class ParticleSpawner : MonoBehaviour
     }
 
 
-    public void SpawnParticleEffect(ParticleSelection.Particles type, Vector3 location)
+    public void SpawnParticleEffect(Particles type, Vector3 location)
     {
         particleCollection.TryGetValue(type, out List<ParticleSystem> value);
 
@@ -92,4 +94,6 @@ public class ParticleSpawner : MonoBehaviour
         list.Add(obj);
         obj.gameObject.SetActive(false);
     }
+
+    
 }

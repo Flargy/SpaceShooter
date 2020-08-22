@@ -115,6 +115,7 @@ MonoBehaviour:
   <projectileSpeed>k__BackingField: 15
   <projectileTransform>k__BackingField: {fileID: 6477066122903019773}
   <damageMultiplier>k__BackingField: 1
+  audioStrength: 0
   ProjectileType: 0
 --- !u!1001 &6132585665136088729
 PrefabInstance:
