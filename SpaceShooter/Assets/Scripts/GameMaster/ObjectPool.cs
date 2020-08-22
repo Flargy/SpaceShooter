@@ -66,7 +66,6 @@ public class ObjectPool : MonoBehaviour
         {
 
             obj = Instantiate(LazerPoolObject);
-            obj.SetActive(false);
         }
         
 
@@ -85,7 +84,6 @@ public class ObjectPool : MonoBehaviour
         else
         {
             obj = Instantiate(MissilePoolObject);
-            obj.SetActive(false);
         }
 
         return obj;
@@ -104,7 +102,6 @@ public class ObjectPool : MonoBehaviour
         else
         {
             obj = Instantiate(HomingMissilePoolObject);
-            obj.SetActive(false);
         }
 
         return obj;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
@@ -27,6 +28,10 @@ public class EnemyBase : DamageableObject
     // Start is called before the first frame update
     protected override void Start()
     {
+        if (projectileFirePoints.Count == 0)
+        {
+            projectileFirePoints.Add(transform);
+        }
         float modifier = EnemySpawner.Instance.DifficultyMultiplier;
         health = health * modifier;
         startHealth = health;
@@ -114,5 +119,11 @@ public class EnemyBase : DamageableObject
     protected void KilledByPlayer()
     {
         GameVariables.GameUI.UpdatePlayerScore(scoreValue);
+        
+    }
+
+    public void GameOver()
+    {
+        Destroy(gameObject);
     }
 }

@@ -10,7 +10,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     [field: SerializeField] protected float projectileSpeed { get; set; }
     [field: SerializeField] protected Transform projectileTransform { get; set; }
     [field: SerializeField] protected float damageMultiplier { get; set; }
-    [field: SerializeField] protected AudioController.ClipName audioType {get;}
+    [field: SerializeField] protected AudioController.ClipName audioType;
     [field: SerializeField] protected float audioStrength = 1.0f;
     protected float StartSpeed { get; set; }
 
@@ -20,10 +20,11 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     public Type ProjectileType;
 
-
     protected RaycastHit hit;
 
     protected SphereCollider sphere;
+
+    [SerializeField] private bool playerUse = false;
 
     protected virtual void Awake()
     {
@@ -48,6 +49,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         }
         else
         {
+            
             KillProjectile();
         }
         
@@ -66,7 +68,14 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
         if (objectHiit != null)
         {
             objectHiit.TakeDamage(Damage * damageMultiplier);
-            ObjectPool.Instance.AddToList(gameObject);
+            if (playerUse)
+            {
+                ObjectPool.Instance.AddToList(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {
@@ -78,7 +87,10 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     public void OnEnable()
     {
-        AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
+        if (playerUse)
+        {
+            AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
+        }
     }
 
 }
