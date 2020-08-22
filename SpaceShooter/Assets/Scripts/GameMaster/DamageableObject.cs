@@ -20,4 +20,12 @@ public class DamageableObject : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public virtual void DestroyMyGameObject()
+    {
+        if(gameObject != null)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

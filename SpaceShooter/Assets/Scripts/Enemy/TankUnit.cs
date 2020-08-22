@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class TankUnit : EnemyBase
 {
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     protected override void Update()
     {
         Movmentbehaviour();
@@ -42,8 +35,4 @@ public class TankUnit : EnemyBase
             GameObject pew = Instantiate(projectile, trans.position, trans.rotation);
         }
     }
-
-
-
-
 }

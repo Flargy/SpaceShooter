@@ -8,6 +8,8 @@ public class BossBase : DamageableObject
     [SerializeField] protected GameObject Lazerbeam = null;
     [SerializeField] protected GameObject mines = null;
 
+    [SerializeField] protected int scoreValue = 50;
+
     [SerializeField] protected float primaryFireRate = 0.5f;
     [SerializeField] protected float secondaryFireRate = 8f;
     [SerializeField] protected float destructionTime = 7.5f;
@@ -19,10 +21,16 @@ public class BossBase : DamageableObject
     protected bool immune = true;
     protected bool combatActivated = false;
     protected bool defeated = false;
-    protected List<GameObject> listOfMines = new List<GameObject>();
+    public List<GameObject> listOfMines = new List<GameObject>();
     protected RaycastHit hit;
     protected float explosiontimer = 0f;
     protected float multiplier = 2f;
+
+    protected override void Start()
+    {
+        base.Start();
+        GameVariables.Instance.RegisterEnemy(this);
+    }
 
     // Update is called once per frame
     protected override void Update()
@@ -88,16 +96,6 @@ public class BossBase : DamageableObject
         }
     }
 
-
-    public void KillThisObject(GameObject go)
-    {
-        if (listOfMines.Contains(go))
-        {
-            listOfMines.Remove(go);
-            Destroy(go);
-        }
-    }
-
     protected void Fire()
     {
         int index = Random.Range(0,2);
@@ -120,20 +118,19 @@ public class BossBase : DamageableObject
         {
             health -= dmg;
             GameVariables.GameUI.UpdateBossSlider(dmg);
-            Debug.Log("Boss Has " + health + " left and my imune status was " + immune);
 
             if (health <= 0)
             {
-                List<GameObject> deadMines = listOfMines;
-                foreach(GameObject obj in deadMines)
+                foreach(GameObject obj in listOfMines)
                 {
-                    KillThisObject(obj);
+                    Destroy(obj);
                 }
-                deadMines.Clear();
+                listOfMines.Clear();
+
+                GameVariables.GameUI.UpdatePlayerScore(scoreValue);
 
                 OnDefeat();
                 EnemySpawner.Instance.BossDefeated(destructionTime + 5f);
-                //Destroy(gameObject);
             }
         }
     }
@@ -153,10 +150,20 @@ public class BossBase : DamageableObject
 
     protected virtual void OnDefeat()
     {
+        foreach (GameObject obj in listOfMines)
+        {
+            Destroy(obj);
+        }
+        listOfMines.Clear();
         defeated = true;
         immune = true;
         GetComponent<Collider>().enabled = false;
         EnemySpawner.Instance.RemoveEnemy();
         Destroy(gameObject, 7.5f);
+    }
+
+    public override void DestroyMyGameObject()
+    {
+        OnDefeat();
     }
 }

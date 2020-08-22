@@ -24,6 +24,6 @@ public class TargetMissile : MissileBase
     public override void Spawn()
     {
         base.Spawn();
-        Target = GameVariables.GetEnemy();
+        Target = GameVariables.Instance.GetEnemy();
     }
 }

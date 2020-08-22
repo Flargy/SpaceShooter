@@ -250,10 +250,8 @@ public class PlayerBehaviour : DamageableObject
     {
         if (immortalityTimer <= 1.5f)
         {
-            Debug.Log("no damage");
             return;
         }
-        Debug.Log("damage");
 
         immortalityTimer = 0f;
         health--;
@@ -261,10 +259,9 @@ public class PlayerBehaviour : DamageableObject
         if (health == 0)
         {
             AudioController.Instance.GenerateAudio(AudioController.ClipName.PlayerDestroyed, transform.position, 0.1f);
-            Debug.Log("i dedad, you suck");
+            GameVariables.Instance.ResetTheGame();
         }
     }
-
 
     public void ResetPlayer()
     {
@@ -277,7 +274,7 @@ public class PlayerBehaviour : DamageableObject
         health = startHealth;
         currentDamage = baseDamage;
         currentFireRate = fireRate;
-        startPos = transform.position;
+        transform.position = startPos;
         foreach (PlayerDrone drone in drones)
         {
             drone.ActivateDrone(false);

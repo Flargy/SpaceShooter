@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyBase : DamageableObject
 {
     [SerializeField] protected LayerMask allowedLayers;
-    [SerializeField] protected int scoreValie = 0;
     [SerializeField] protected float movementSpeed = 5;
+    [SerializeField] protected int scoreValue = 10;
 
     [SerializeField] protected GameObject projectile = null;
     [SerializeField] protected List<Transform> projectileFirePoints = new List<Transform>();
@@ -21,6 +21,7 @@ public class EnemyBase : DamageableObject
 
     protected float coolDownTimer = 0;
     protected float colliderRadius = 0;
+    protected float startHealth = 0;
 
     protected RaycastHit hit;
     // Start is called before the first frame update
@@ -28,8 +29,9 @@ public class EnemyBase : DamageableObject
     {
         float modifier = EnemySpawner.Instance.DifficultyMultiplier;
         health = health * modifier;
+        startHealth = health;
         fireRate = fireRate - 1 * 0.2f * modifier;
-        GameVariables.Instance.RegisterEnemy(gameObject);
+        GameVariables.Instance.RegisterEnemy(this);
         colliderRadius = GetComponent<SphereCollider>().radius;
     }
 
@@ -52,8 +54,10 @@ public class EnemyBase : DamageableObject
         {
             AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
             ParticleSpawner.Instance.SpawnParticleEffect(ParticleSpawner.Particles.Explosion, transform.position);
+            SpawnPowerup();
+            KilledByPlayer();
             EnemySpawner.Instance.RemoveEnemy();
-            Destroy(gameObject);
+            GameVariables.Instance.RemoveEnemy(this);
         }
     }
 
@@ -79,21 +83,36 @@ public class EnemyBase : DamageableObject
     protected virtual bool CheckCollision(Vector3 direction, float distance)
     {
         Physics.Raycast(transform.position, direction.normalized, out hit, distance + colliderRadius, allowedLayers);
-        return hit.collider == null ? true : false;
-    }
+        bool IHit = hit.collider == null ? true : false;
 
-    protected virtual void OnDisable()
-    {
-        if (health <= 0 && UnityEngine.Random.Range(0, 100) > 100 - powerUpSpawnrate)
+        if (!IHit)
         {
-            SpawnPowerup();
+            Debug.Log("I have hit something on object " + hit.collider.name);
+            DamageableObject hitTarget = hit.collider.GetComponent<DamageableObject>();
+            if(hitTarget != null)
+            {
+                hitTarget.TakeDamage(1);
+                if (health <= 5)
+                {
+                    TakeDamage(1000);
+                }
+                TakeDamage(1);
+            }
         }
 
-        GameVariables.Instance.RemoveEnemy(gameObject);
+        return IHit;
     }
 
     protected void SpawnPowerup()
     {
-        GameObject powerUp = Instantiate(GameVariables.PowerUpPrefab, transform.position, transform.rotation);
+        if(Random.Range(0, 100) > 100 - powerUpSpawnrate)
+        {
+            GameObject powerUp = Instantiate(GameVariables.PowerUpPrefab, transform.position, transform.rotation);
+        }
+    }
+
+    protected void KilledByPlayer()
+    {
+        GameVariables.GameUI.UpdatePlayerScore(scoreValue);
     }
 }

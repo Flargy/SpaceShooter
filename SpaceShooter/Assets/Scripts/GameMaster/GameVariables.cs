@@ -13,9 +13,10 @@ public class GameVariables : MonoBehaviour
     static public Transform PlayerTransform { get; set; }
     static public PlayerBehaviour Player { get; set; }
 
-    static private List<GameObject> enemies = new List<GameObject>();
+    //static private List<GameObject> enemies = new List<GameObject>();
+    static private List<DamageableObject> enemies = new List<DamageableObject>();
+    static private List<GameObject> enemyProjectiles = new List<GameObject>();
 
-    static private List<GameObject> projectiles = new List<GameObject>();
     [SerializeField] private List<GameObject> powerUps = new List<GameObject>();
     static public List<GameObject> PowerUps = new List<GameObject>();
     [SerializeField] private GameUI gameUI;
@@ -48,7 +49,7 @@ public class GameVariables : MonoBehaviour
         }
     }
 
-    static public Transform GetEnemy()
+    public Transform GetEnemy()
     {
         if (enemies.Count > 0)
             return enemies[0].transform;
@@ -56,15 +57,16 @@ public class GameVariables : MonoBehaviour
             return null;
     }
 
-    public void RegisterEnemy(GameObject enemy)
+    public void RegisterEnemy(DamageableObject enemy)
     {
         enemies.Add(enemy);
     }
 
-    public void RemoveEnemy(GameObject enemy)
+    public void RemoveEnemy(DamageableObject enemy)
     {
         if (enemies.Contains(enemy))
         {
+            enemy.DestroyMyGameObject();
             enemies.Remove(enemy);
         }
     }
@@ -80,20 +82,30 @@ public class GameVariables : MonoBehaviour
 
     public void RegisterProjectile(GameObject projectile)
     {
-        projectiles.Add(projectile);
+        enemyProjectiles.Add(projectile);
     }
 
     public void RemoveProjectile(GameObject projectile)
     {
-        if (projectiles.Contains(projectile))
+        if (enemyProjectiles.Contains(projectile))
         {
-            projectiles.Remove(projectile);
+            enemyProjectiles.Remove(projectile);
         }
     }
 
     public void ResetTheGame()
     {
+        gameRunning = false;
+        foreach(DamageableObject enemy in enemies)
+        {
+            if(enemy != null && enemy.gameObject != null)
+            {
+                enemy.DestroyMyGameObject();
+            }
+        }
+        enemies.Clear();
+        gameUI.GameOver();
         Player.ResetPlayer();
-       //EnemySpawner.Instance.ResetTheGame();
+        Debug.Log("Game is now reseted");
     }
 }

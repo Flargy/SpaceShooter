@@ -7,6 +7,8 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] private GameObject menuPanel = null;
     [SerializeField] private GameObject backgroundPanel = null;
+    [SerializeField] private GameObject gameOverPanel = null;
+    [SerializeField] private GameObject howToPlayPanel = null;
     [SerializeField] private Slider bossSlider;
 
     [SerializeField] private Text playerHealth = null;
@@ -70,10 +72,21 @@ public class GameUI : MonoBehaviour
         GameVariables.gameRunning = false;
     }
 
-    public void ShowBackgrounds(bool status)
+    public void ToggleBackground()
     {
-        backgroundPanel.SetActive(status);
-        menuPanel.SetActive(!status);
+        backgroundPanel.SetActive(!backgroundPanel.activeSelf);
+        menuPanel.SetActive(!menuPanel.activeSelf);
+    }
+
+    public void ToggleHowToPlay()
+    {
+        howToPlayPanel.SetActive(howToPlayPanel.activeSelf);
+        menuPanel.SetActive(!menuPanel.activeSelf);
+    }
+    public void ToggleGameOver()
+    {
+        gameOverPanel.SetActive(!gameOverPanel.activeSelf);
+        menuPanel.SetActive(!menuPanel.activeSelf);
     }
 
     public void NextBackground(int i)
@@ -88,7 +101,6 @@ public class GameUI : MonoBehaviour
         }
 
         newBackgroundVisual.sprite = backgrounds[currentSpriteIndex];
-
     }
 
     public void Changebackground()
@@ -97,6 +109,14 @@ public class GameUI : MonoBehaviour
         {
             renderer.sprite = backgrounds[currentSpriteIndex];
         }
-        ShowBackgrounds(false);
+        ToggleBackground();
     }
+
+
+    public void GameOver()
+    {
+        Debug.Log("Game over, player has died");
+        ToggleGameOver();
+    }
+
 }

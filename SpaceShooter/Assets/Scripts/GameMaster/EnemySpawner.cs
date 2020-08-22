@@ -68,7 +68,6 @@ public class EnemySpawner : MonoBehaviour
 
     public void RemoveEnemy()
     {
-
         activeEnemies--;
         currentKills++;
         if (currentKills >= killsToBoss && bossActive == false)

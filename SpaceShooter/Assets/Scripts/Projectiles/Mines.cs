@@ -39,7 +39,8 @@ public class Mines : DamageableObject
         health--;
         if (health == 0)
         {
-            parentBoss.KillThisObject(gameObject);
+            parentBoss.listOfMines.Remove(gameObject);
+            Destroy(gameObject);
         }
     }
 }

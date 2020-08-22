@@ -61,16 +61,4 @@ public class EnemyKamikaze : EnemyBase
         }
         return false;
     }
-
-    public override void TakeDamage(float dmg)
-    {
-        health -= dmg;
-        if (health <= 0)
-        {
-            SpawnPowerup();
-            EnemySpawner.Instance.RemoveEnemy();
-            Destroy(gameObject);
-        }
-    }
-
 }
