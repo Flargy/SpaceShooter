@@ -28,7 +28,12 @@ public class BossBase : DamageableObject
 
     protected override void Start()
     {
-        base.Start();
+        float modifier = EnemySpawner.Instance.DifficultyMultiplier;
+
+        health = health * modifier;
+        primaryFireRate = primaryFireRate * (1 - 0.05f * modifier);
+
+
         GameVariables.Instance.RegisterEnemy(this);
     }
 
