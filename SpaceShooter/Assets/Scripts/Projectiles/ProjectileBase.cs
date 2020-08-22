@@ -87,7 +87,10 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
 
     public void OnEnable()
     {
-        AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
+        if (playerUse)
+        {
+            AudioController.Instance.GenerateAudio(audioType, transform.position, audioStrength);
+        }
     }
 
 }

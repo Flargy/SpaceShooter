@@ -36,20 +36,26 @@ public class AudioController : MonoBehaviour
 
     public void GenerateAudio(ClipName type ,Vector3 location, float strength)
     {
-        if (strength == 0)
+        bool isLaser = type == ClipName.Laser;
+        bool isMissile = type == ClipName.Missile;
+        if (isLaser && laserAudioDelay < 0.1f)
         {
-                if ((type == ClipName.Laser) && laserAudioDelay < 0.1f)
-            {
-                return;
-            }
-            if (type == ClipName.Missile && missileAudioDelay < 0.1f)
-            {
-                return;
-            }
-        
-                return;
+            return;
         }
-        laserAudioDelay = laserAudioDelay > 0.1f ? 0.0f : laserAudioDelay;
+        if (isMissile && missileAudioDelay < 0.1f)
+        {
+            return;
+        }
+
+        if (isLaser)
+        {
+            laserAudioDelay = 0;
+        }
+        else if (isMissile)
+        {
+            missileAudioDelay = 0;
+        }
+
         AudioSource audio;
         AudioClip clip = clips[(int)type];
         if(sources.Count > 0)
