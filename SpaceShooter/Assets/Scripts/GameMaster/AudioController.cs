@@ -15,7 +15,8 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource sourcePrefab;
 
     private List<AudioSource> sources;
-    private float audioDelay;
+    private float laserAudioDelay;
+    private float missileAudioDelay;
 
 
     private void Awake()
@@ -29,24 +30,26 @@ public class AudioController : MonoBehaviour
     }
     private void Update()
     {
-        audioDelay += GameVariables.GameTime;
+        laserAudioDelay += GameVariables.GameTime;
+        missileAudioDelay += GameVariables.GameTime;
     }
 
     public void GenerateAudio(ClipName type ,Vector3 location, float strength)
     {
-        if (type == ClipName.EnemyDestroy)
+        if (strength == 0)
         {
-            Debug.Log("rek enemy");
+                if ((type == ClipName.Laser) && laserAudioDelay < 0.1f)
+            {
+                return;
+            }
+            if (type == ClipName.Missile && missileAudioDelay < 0.1f)
+            {
+                return;
+            }
+        
+                return;
         }
-        if ((type == ClipName.Laser || type == ClipName.Missile) && audioDelay < 0.1f)
-        {
-            return;
-        }
-        if(strength == 0)
-        {
-            return;
-        }
-        audioDelay = audioDelay > 0.1f ? 0.0f : audioDelay;
+        laserAudioDelay = laserAudioDelay > 0.1f ? 0.0f : laserAudioDelay;
         AudioSource audio;
         AudioClip clip = clips[(int)type];
         if(sources.Count > 0)

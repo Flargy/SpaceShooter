@@ -10,7 +10,7 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
     [field: SerializeField] protected float projectileSpeed { get; set; }
     [field: SerializeField] protected Transform projectileTransform { get; set; }
     [field: SerializeField] protected float damageMultiplier { get; set; }
-    [field: SerializeField] protected AudioController.ClipName audioType {get;}
+    [field: SerializeField] protected AudioController.ClipName audioType;
     [field: SerializeField] protected float audioStrength = 1.0f;
     protected float StartSpeed { get; set; }
 
@@ -71,6 +71,10 @@ public class ProjectileBase : MonoBehaviour //ScriptableObject
             if (playerUse)
             {
                 ObjectPool.Instance.AddToList(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
         else

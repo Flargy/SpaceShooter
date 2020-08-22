@@ -115,6 +115,7 @@ MonoBehaviour:
   <projectileSpeed>k__BackingField: 15
   <projectileTransform>k__BackingField: {fileID: 6477066122903019773}
   <damageMultiplier>k__BackingField: 1
+  audioType: 0
   audioStrength: 0.03
   ProjectileType: 0
   playerUse: 1
