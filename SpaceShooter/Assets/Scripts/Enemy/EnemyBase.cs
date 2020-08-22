@@ -35,7 +35,7 @@ public class EnemyBase : DamageableObject
         float modifier = EnemySpawner.Instance.DifficultyMultiplier;
         health = health * modifier;
         startHealth = health;
-        fireRate = fireRate - 1 * 0.2f * modifier;
+        fireRate = fireRate * (1 - 0.05f * modifier);
         GameVariables.Instance.RegisterEnemy(this);
         colliderRadius = GetComponent<SphereCollider>().radius;
     }
