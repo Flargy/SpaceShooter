@@ -415,6 +415,11 @@ Transform:
   m_Father: {fileID: 1068309659}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!212 &982326198 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6968416252432635573, guid: aa07fea313b03ce48ad019c86e3622d4, type: 3}
+  m_PrefabInstance: {fileID: 6968416251891939776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &991819297
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +990,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: background.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
       propertyPath: background
+      value: 
+      objectReference: {fileID: 1102913016}
+    - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: background.Array.data[0]
+      value: 
+      objectReference: {fileID: 982326198}
+    - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: background.Array.data[1]
       value: 
       objectReference: {fileID: 1102913016}
     m_RemovedComponents: []

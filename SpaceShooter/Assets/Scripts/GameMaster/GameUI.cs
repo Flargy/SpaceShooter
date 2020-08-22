@@ -80,7 +80,7 @@ public class GameUI : MonoBehaviour
 
     public void ToggleHowToPlay()
     {
-        howToPlayPanel.SetActive(howToPlayPanel.activeSelf);
+        howToPlayPanel.SetActive(!howToPlayPanel.activeSelf);
         menuPanel.SetActive(!menuPanel.activeSelf);
     }
     public void ToggleGameOver()
@@ -116,6 +116,14 @@ public class GameUI : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game over, player has died");
+
+        score = 0;
+        health = 3;
+        wave = 1;
+        playerHealth.text = "" + health;
+        currentScore.text = "" + score;
+        currentWave.text = "" + wave;
+        menuPanel.SetActive(true);
         ToggleGameOver();
     }
 
