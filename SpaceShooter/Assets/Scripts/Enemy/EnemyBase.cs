@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
@@ -99,5 +100,11 @@ public class EnemyBase : DamageableObject
     protected void SpawnPowerup()
     {
         GameObject powerUp = Instantiate(GameVariables.PowerUpPrefab, transform.position, transform.rotation);
+        
+    }
+
+    public void GameOver()
+    {
+        Destroy(gameObject);
     }
 }
