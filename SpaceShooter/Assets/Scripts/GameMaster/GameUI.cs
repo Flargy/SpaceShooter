@@ -9,19 +9,21 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel = null;
     [SerializeField] private GameObject howToPlayPanel = null;
     [SerializeField] private Slider bossSlider;
-
+    [SerializeField] private Text gameOverScore;
     [SerializeField] private Text playerHealth = null;
-    private int health = 3;
     [SerializeField] private Text currentScore = null;
-    private int score = 0;
     [SerializeField] private Text Highscore = null;
     [SerializeField] private Text currentWave = null;
-    private int wave = 1;
-
     [SerializeField] private List<SpriteRenderer> background = new List<SpriteRenderer>();
     [SerializeField] private Image newBackgroundVisual;
-    private int currentSpriteIndex = 0;
     [SerializeField] private List<Sprite> backgrounds = new List<Sprite>();
+
+    [field: SerializeField] private List<Text> upgradeTexts = new List<Text>();
+
+    private int health = 3;
+    private int score = 0;
+    private int wave = 1;
+    private int currentSpriteIndex = 0;
 
     public void UpdatePlayerHealth()
     {
@@ -41,11 +43,14 @@ public class GameUI : MonoBehaviour
         bossSlider.value -= damage;
         if(bossSlider.value <= bossSlider.minValue)
         {
-            Debug.Log("Boss is dead");
             bossSlider.gameObject.SetActive(false);
         }
     }
 
+    public void UpdateUpgrades(PowerUpEnums.PowerEnum targetEnum, float upgrade)
+    {
+        upgradeTexts[(int)targetEnum].text = upgrade.ToString("F1");
+    }
 
     public void UpdatePlayerScore(int point)
     {
@@ -94,7 +99,8 @@ public class GameUI : MonoBehaviour
         if(currentSpriteIndex < 0)
         {
             currentSpriteIndex = backgrounds.Count - 1;
-        }else if(currentSpriteIndex > backgrounds.Count - 1)
+        }
+        else if(currentSpriteIndex > backgrounds.Count - 1)
         {
             currentSpriteIndex = 0;
         }
@@ -108,14 +114,14 @@ public class GameUI : MonoBehaviour
         {
             renderer.sprite = backgrounds[currentSpriteIndex];
         }
+
         ToggleBackground();
     }
 
 
     public void GameOver()
     {
-        Debug.Log("Game over, player has died");
-
+        gameOverScore.text = "" + score;
         score = 0;
         health = 3;
         wave = 1;

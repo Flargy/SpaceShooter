@@ -89,6 +89,7 @@ public class EnemySpawner : MonoBehaviour
         DifficultyMultiplier = DifficultyMultiplier * 1.5f;
         maxEnemies += 2;
         spawnTimer = 0;
+        GameVariables.GameUI.UpdateWave();
         StartCoroutine(WaveDelayAfterBossKill(waveDelayTimer));
     }
 

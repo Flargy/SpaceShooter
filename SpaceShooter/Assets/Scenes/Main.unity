@@ -901,6 +901,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 363114846707887169, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 488593473647184936, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024612164756065086, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.19999695
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221945861600820557, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919898508397209253, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217511773127099879, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.16000366
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125912306314764664, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5258915705596315982, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
       propertyPath: m_Name
       value: GameUI
@@ -990,14 +1018,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
-      propertyPath: background.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
-      propertyPath: background
-      value: 
-      objectReference: {fileID: 1102913016}
-    - target: {fileID: 5258915705596316021, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
       propertyPath: background.Array.data[0]
       value: 
       objectReference: {fileID: 982326198}
@@ -1005,6 +1025,22 @@ PrefabInstance:
       propertyPath: background.Array.data[1]
       value: 
       objectReference: {fileID: 1102913016}
+    - target: {fileID: 7318020984463631365, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7778548939591776947, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184844804256261317, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204050551449080596, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b8b2ccae6b6f7e478d1a9a1119678e3, type: 3}
 --- !u!1001 &6968416251891939776
@@ -1146,11 +1182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8848981833759406633, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
       propertyPath: baseDamage
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8848981833759406633, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
       propertyPath: fireRate
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848981833759406633, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
+      propertyPath: multipleUpgradesAllowed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8848981833869994276, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
       propertyPath: m_Layer
@@ -1204,5 +1244,7 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8848981833759406635, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
+    - {fileID: 8848981833759406634, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f06be0be808ae1d429a92eb5fbd45252, type: 3}

@@ -27,6 +27,7 @@ public class EnemyBase : DamageableObject
     // Start is called before the first frame update
     protected override void Start()
     {
+        coolDownTimer = Random.Range(0, fireRate * 0.3f);
         if (projectileFirePoints.Count == 0)
         {
             projectileFirePoints.Add(transform);
@@ -44,7 +45,7 @@ public class EnemyBase : DamageableObject
     {
         Movmentbehaviour();
         coolDownTimer += GameVariables.GameTime;
-        if(coolDownTimer > fireRate)
+        if(coolDownTimer > fireRate && GameBoundaries.Instance.InsideBoundaries(transform.position))
         {
             Fire();
             coolDownTimer = 0;
@@ -91,7 +92,6 @@ public class EnemyBase : DamageableObject
 
         if (!IHit)
         {
-            Debug.Log("I have hit something on object " + hit.collider.name);
             DamageableObject hitTarget = hit.collider.GetComponent<DamageableObject>();
             if(hitTarget != null)
             {

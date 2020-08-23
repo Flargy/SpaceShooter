@@ -35,6 +35,7 @@ public class GameVariables : MonoBehaviour
         PowerUps = powerUps;
         GameUI = gameUI;
     }
+
     private void Update()
     {
         if (gameRunning)
@@ -75,6 +76,7 @@ public class GameVariables : MonoBehaviour
         {
             Destroy(obj, 0.1f);
         }
+
         list.Clear();
     }
 
@@ -101,6 +103,7 @@ public class GameVariables : MonoBehaviour
                 enemy.DestroyMyGameObject();
             }
         }
+
         enemies.Clear();
         gameUI.GameOver();
         Player.ResetPlayer();

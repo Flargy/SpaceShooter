@@ -6,7 +6,7 @@ public class TankUnit : EnemyBase
     {
         Movmentbehaviour();
         coolDownTimer += GameVariables.GameTime;
-        if (coolDownTimer > fireRate)
+        if (coolDownTimer > fireRate && GameBoundaries.Instance.InsideBoundaries(transform.position))
         {
             Fire();
             coolDownTimer = 0;

@@ -128,6 +128,7 @@ public class BossBase : DamageableObject
             {
                 foreach(GameObject obj in listOfMines)
                 {
+                    GameVariables.GameUI.UpdateBossSlider(1000);
                     Destroy(obj);
                 }
                 listOfMines.Clear();

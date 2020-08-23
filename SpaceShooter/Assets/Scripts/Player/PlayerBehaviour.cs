@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerBehaviour : DamageableObject
@@ -25,6 +26,7 @@ public class PlayerBehaviour : DamageableObject
     private float immortalityTimer = 0f;
     private Vector3 startPos = Vector3.zero;
     private float startHealth = 0;
+    private MeshRenderer playerMeshRenderer;
     
 
 
@@ -39,6 +41,16 @@ public class PlayerBehaviour : DamageableObject
         currentFireRate = fireRate;
         startPos = transform.position;
         startHealth = health;
+        playerMeshRenderer = playerMesh.GetComponent<MeshRenderer>();
+    }
+
+    protected override void Start()
+    {
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.SPREAD, upgrades[PowerUpEnums.PowerEnum.SPREAD]);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.MISSILE, upgrades[PowerUpEnums.PowerEnum.MISSILE]);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.DRONE, upgrades[PowerUpEnums.PowerEnum.DRONE]);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.DAMAGE, currentDamage);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.FIRERATE, currentFireRate);
     }
 
     protected override void Update()
@@ -71,11 +83,12 @@ public class PlayerBehaviour : DamageableObject
             PowerUp(PowerUpEnums.PowerEnum.SPREAD);
             PowerUp(PowerUpEnums.PowerEnum.MISSILE);
             PowerUp(PowerUpEnums.PowerEnum.DRONE);
-            Debug.Log("Value upgraded to :" + upgrades[PowerUpEnums.PowerEnum.DRONE]);
         }
+
         Move();
 
-        immortalityTimer += immortalityTimer < 1.5f ? GameVariables.GameTime : 0f;
+        immortalityTimer += immortalityTimer < 2.1f ? GameVariables.GameTime : 0f;
+
     }
 
     private void CreateProjectile(GameObject projectile, Transform spawnPoint)
@@ -196,6 +209,7 @@ public class PlayerBehaviour : DamageableObject
             if (powerEnum == PowerUpEnums.PowerEnum.DRONE)
             {
                 currentUppgrade = upgrades[powerEnum]++;
+                GameVariables.GameUI.UpdateUpgrades(powerEnum, upgrades[powerEnum]);
                 foreach (PlayerDrone drone in drones)
                 {
                     if (!drone.Active)
@@ -208,7 +222,7 @@ public class PlayerBehaviour : DamageableObject
             else
             {
                 currentUppgrade = upgrades[powerEnum]++;
-                Debug.Log("Upgraded " + powerEnum.ToString());
+                GameVariables.GameUI.UpdateUpgrades(powerEnum, upgrades[powerEnum]);
             }
 
             if(multipleUpgradesAllowed == false)
@@ -220,10 +234,12 @@ public class PlayerBehaviour : DamageableObject
                         if (entry == powerEnum)
                         {
                             upgrades[entry] = currentUppgrade;
+                            GameVariables.GameUI.UpdateUpgrades(entry, upgrades[entry]);
                         }
                         else
                         {
                             upgrades[entry] = 0;
+                            GameVariables.GameUI.UpdateUpgrades(entry, upgrades[entry]);
                         }
                     }
                 }
@@ -234,13 +250,12 @@ public class PlayerBehaviour : DamageableObject
             if (powerEnum == PowerUpEnums.PowerEnum.DAMAGE)
             {
                 currentDamage += 0.1f * baseDamage;
-                Debug.Log("Upgraded " + powerEnum.ToString());
-
+                GameVariables.GameUI.UpdateUpgrades(powerEnum, currentDamage);
             }
             else if (powerEnum == PowerUpEnums.PowerEnum.FIRERATE)
             {
                 currentFireRate -= 0.05f * fireRate;
-                Debug.Log("Upgraded " + powerEnum.ToString());
+                GameVariables.GameUI.UpdateUpgrades(powerEnum, currentDamage);
             }
 
         }
@@ -248,12 +263,13 @@ public class PlayerBehaviour : DamageableObject
 
     public override void TakeDamage(float dmg)
     {
-        if (immortalityTimer <= 1.5f)
+        if (immortalityTimer <= 2f)
         {
             return;
         }
 
         immortalityTimer = 0f;
+        StartCoroutine(flashForImmunity());
         health--;
         GameVariables.GameUI.UpdatePlayerHealth();
         if (health == 0)
@@ -279,7 +295,27 @@ public class PlayerBehaviour : DamageableObject
         {
             drone.ActivateDrone(false);
         }
+
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.SPREAD, upgrades[PowerUpEnums.PowerEnum.SPREAD]);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.MISSILE, upgrades[PowerUpEnums.PowerEnum.MISSILE]);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.DRONE, upgrades[PowerUpEnums.PowerEnum.DRONE]);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.DAMAGE, currentDamage);
+        GameVariables.GameUI.UpdateUpgrades(PowerUpEnums.PowerEnum.FIRERATE, currentFireRate);
     }
+
+    private IEnumerator flashForImmunity()
+    {
+        float gameTimer = GameVariables.GameTime * 1;
+        while (immortalityTimer < 1.9f)
+        {
+            playerMeshRenderer.enabled = false;
+            yield return new WaitForSeconds(gameTimer * 0.1f);
+            playerMeshRenderer.enabled = true;
+            yield return new WaitForSeconds(gameTimer * 0.1f);
+        }
+        yield return null;
+    }
+
 }
 
 

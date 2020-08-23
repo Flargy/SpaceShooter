@@ -63,14 +63,14 @@ MonoBehaviour:
   allowedLayers:
     serializedVersion: 2
     m_Bits: 10496
-  scoreValie: 0
   movementSpeed: 3
+  scoreValue: 10
   projectile: {fileID: 3907442149975079042, guid: a19733183009f0c438843d40aa64d4d2, type: 3}
   projectileFirePoints: []
   fireRate: 6
   audioType: 5
   audioStrength: 0.1
-  powerUpSpawnrate: 25
+  powerUpSpawnrate: 30
   targetDistance: 8
   aimTimer: 2.5
   speedMultiplier: 6
