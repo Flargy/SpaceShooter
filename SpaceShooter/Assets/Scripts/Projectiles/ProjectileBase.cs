@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
+﻿using UnityEngine;
 
 //[CreateAssetMenu(menuName = "ProjectileBase")]
 public class ProjectileBase : MonoBehaviour //ScriptableObject
