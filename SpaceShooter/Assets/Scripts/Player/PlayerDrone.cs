@@ -2,10 +2,10 @@
 
 public class PlayerDrone : DamageableObject
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform player = default;
     [SerializeField] private Collider myCollider = null;
     [SerializeField] private Renderer myRenderer = null;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform firePoint = default;
 
 
     public bool Active = false;

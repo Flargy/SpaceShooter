@@ -3,11 +3,11 @@
 public class Mines : DamageableObject
 {
     [SerializeField] private float moveSpeed = 2;
-    [SerializeField] private Transform rotator;
-    [SerializeField] private Transform[] firePoints;
+    [SerializeField] private Transform rotator = default;
+    [SerializeField] private Transform[] firePoints = default;
     [SerializeField] private float fireRate = 1;
     [SerializeField] private GameObject projectile = null;
-    public BossBase parentBoss;
+    public BossBase parentBoss = null;
 
     private float fireTimer = 0;
 

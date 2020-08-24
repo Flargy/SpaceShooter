@@ -2,11 +2,11 @@
 
 public class LoopingBackground : MonoBehaviour
 {
-    [SerializeField] private Transform loopObject1;
-    [SerializeField] private Transform loopObject2;
+    [SerializeField] private Transform loopObject1 = default;
+    [SerializeField] private Transform loopObject2 = default;
 
-    [SerializeField] private Transform startLoopPos;
-    [SerializeField] private Transform endLoopPos;
+    [SerializeField] private Transform startLoopPos = default;
+    [SerializeField] private Transform endLoopPos = default;
 
     [SerializeField] private float loopTime = 10;
 

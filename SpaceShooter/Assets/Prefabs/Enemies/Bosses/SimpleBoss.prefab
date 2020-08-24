@@ -812,7 +812,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -883,7 +891,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -954,7 +970,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1025,7 +1049,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1096,7 +1128,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1241,7 +1281,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1312,7 +1360,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1383,7 +1439,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1454,7 +1518,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4367876517412921930, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5768587977869028188, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448666420997911272, guid: 22b6a1b59ba08e847966acfee594d944, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}

@@ -8,10 +8,10 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float fireRate = 1;
     [SerializeField] private int baseDamage = 1;
-    [SerializeField] private Transform projectileSpawn;
+    [SerializeField] private Transform projectileSpawn = default;
     [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
     [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
-    [SerializeField] private Transform droneHolder;
+    [SerializeField] private Transform droneHolder = default;
     [SerializeField] private List<PlayerDrone> drones = new List<PlayerDrone>();
     [SerializeField] private GameObject playerMesh = null;
     [SerializeField] private bool multipleUpgradesAllowed = false;
@@ -26,10 +26,8 @@ public class PlayerBehaviour : DamageableObject
     private float immortalityTimer = 0f;
     private Vector3 startPos = Vector3.zero;
     private float startHealth = 0;
-    private MeshRenderer playerMeshRenderer;
+    private MeshRenderer playerMeshRenderer = null;
     
-
-
     protected override void Awake()
     {
         upgrades.Add(PowerUpEnums.PowerEnum.SPREAD, 0);
@@ -86,7 +84,6 @@ public class PlayerBehaviour : DamageableObject
         }
 
         Move();
-
         immortalityTimer += immortalityTimer < 2.1f ? GameVariables.GameTime : 0f;
 
     }
@@ -201,7 +198,7 @@ public class PlayerBehaviour : DamageableObject
 
     public void PowerUp(PowerUpEnums.PowerEnum powerEnum)
     {
-
+        Debug.Log("Powerup added by type: " + powerEnum.ToString());
         if (upgrades.ContainsKey(powerEnum))
         {
             int currentUppgrade = 0;

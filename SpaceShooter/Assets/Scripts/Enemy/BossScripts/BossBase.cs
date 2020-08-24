@@ -128,6 +128,7 @@ public class BossBase : DamageableObject
             {
                 foreach(GameObject obj in listOfMines)
                 {
+                    //This is an ugly fix, but we didn't have any time to fix it.
                     GameVariables.GameUI.UpdateBossSlider(1000);
                     Destroy(obj);
                 }
@@ -135,8 +136,10 @@ public class BossBase : DamageableObject
 
                 GameVariables.GameUI.UpdatePlayerScore(scoreValue);
 
-                OnDefeat();
+                //Hardcoded with the 5, but we just wanted it to work.
                 EnemySpawner.Instance.BossDefeated(destructionTime + 5f);
+
+                OnDefeat();
             }
         }
     }

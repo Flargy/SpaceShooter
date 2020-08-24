@@ -11,11 +11,11 @@ public class ParticleSpawner : MonoBehaviour
 
     public enum Particles { Explosion }
 
-    [SerializeField] private Dictionary<Particles, List<ParticleSystem>> particleCollection;
-    [SerializeField] private List<ParticleSystem> particles;
+    [SerializeField] private Dictionary<Particles, List<ParticleSystem>> particleCollection = new Dictionary<Particles, List<ParticleSystem>>();
+    [SerializeField] private List<ParticleSystem> particles = new List<ParticleSystem>();
 
     [SerializeField] private int cachedParticles = 15;
-    private Dictionary<Particles, ParticleSystem> particleTypes;
+    private Dictionary<Particles, ParticleSystem> particleTypes = new Dictionary<Particles, ParticleSystem>();
 
     private void Awake()
     {

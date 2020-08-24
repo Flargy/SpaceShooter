@@ -7,12 +7,9 @@ public class EnemyBase : DamageableObject
     [SerializeField] protected LayerMask allowedLayers;
     [SerializeField] protected float movementSpeed = 5;
     [SerializeField] protected int scoreValue = 10;
-
     [SerializeField] protected GameObject projectile = null;
     [SerializeField] protected List<Transform> projectileFirePoints = new List<Transform>();
-
     [SerializeField] protected float fireRate = 5;
-
     [SerializeField] protected AudioController.ClipName audioType;
     [SerializeField] protected float audioStrength = 1.0f;
 

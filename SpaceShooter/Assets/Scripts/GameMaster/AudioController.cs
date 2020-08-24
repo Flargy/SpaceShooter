@@ -10,12 +10,12 @@ public class AudioController : MonoBehaviour
 
     public enum ClipName { Laser, Missile, Pickup, BossDestroy, PlayerDestroyed, EnemyDestroy }
 
-    [SerializeField] private List<AudioClip> clips;
-    [SerializeField] private AudioSource sourcePrefab;
+    [SerializeField] private List<AudioClip> clips = new List<AudioClip>();
+    [SerializeField] private AudioSource sourcePrefab = null;
 
-    private List<AudioSource> sources;
-    private float laserAudioDelay;
-    private float missileAudioDelay;
+    private List<AudioSource> sources = new List<AudioSource>();
+    private float laserAudioDelay = 0f;
+    private float missileAudioDelay = 0f;
 
 
     private void Awake()

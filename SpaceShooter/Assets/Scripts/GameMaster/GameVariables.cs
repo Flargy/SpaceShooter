@@ -7,9 +7,9 @@ public class GameVariables : MonoBehaviour
 
     public static GameVariables Instance { get { return instance; } }
 
-    static public float GameTime { get; private set; }
-    static public Transform PlayerTransform { get; set; }
-    static public PlayerBehaviour Player { get; set; }
+    static public float GameTime { get; private set; } = 0f;
+    static public Transform PlayerTransform { get; set; } = default;
+    static public PlayerBehaviour Player { get; set; } = null;
 
     //static private List<GameObject> enemies = new List<GameObject>();
     static private List<DamageableObject> enemies = new List<DamageableObject>();
@@ -17,11 +17,11 @@ public class GameVariables : MonoBehaviour
 
     [SerializeField] private List<GameObject> powerUps = new List<GameObject>();
     static public List<GameObject> PowerUps = new List<GameObject>();
-    [SerializeField] private GameUI gameUI;
+    [SerializeField] private GameUI gameUI = null;
     static public GameUI GameUI { get; private set; }
 
-    [field: SerializeField] private GameObject powerUpPrefab;
-    static public GameObject PowerUpPrefab { get; private set; }
+    [field: SerializeField] private GameObject powerUpPrefab = null;
+    static public GameObject PowerUpPrefab { get; private set; } = null;
 
     static public bool gameRunning { get; set; } = false;
 
@@ -50,7 +50,7 @@ public class GameVariables : MonoBehaviour
 
     public Transform GetEnemy()
     {
-        if (enemies.Count > 0)
+        if (enemies.Count != 0)
             return enemies[0].transform;
         else
             return null;
@@ -107,6 +107,5 @@ public class GameVariables : MonoBehaviour
         enemies.Clear();
         gameUI.GameOver();
         Player.ResetPlayer();
-        Debug.Log("Game is now reseted");
     }
 }

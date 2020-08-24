@@ -8,14 +8,13 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject backgroundPanel = null;
     [SerializeField] private GameObject gameOverPanel = null;
     [SerializeField] private GameObject howToPlayPanel = null;
-    [SerializeField] private Slider bossSlider;
-    [SerializeField] private Text gameOverScore;
+    [SerializeField] private Slider bossSlider = null;
+    [SerializeField] private Text gameOverScore = null;
     [SerializeField] private Text playerHealth = null;
     [SerializeField] private Text currentScore = null;
-    [SerializeField] private Text Highscore = null;
     [SerializeField] private Text currentWave = null;
     [SerializeField] private List<SpriteRenderer> background = new List<SpriteRenderer>();
-    [SerializeField] private Image newBackgroundVisual;
+    [SerializeField] private Image newBackgroundVisual = null;
     [SerializeField] private List<Sprite> backgrounds = new List<Sprite>();
 
     [field: SerializeField] private List<Text> upgradeTexts = new List<Text>();
