@@ -99,24 +99,24 @@ public class PlayerBehaviour : DamageableObject
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            //currentWeaponNumber--;
-            currentWeaponNumber = currentWeaponNumber-- < 0 ? weaponList.Count - 1 : currentWeaponNumber;
+            currentWeaponNumber--;
+            currentWeaponNumber = currentWeaponNumber < 0 ? weaponList.Count - 1 : currentWeaponNumber;
 
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            //currentWeaponNumber++;
-            currentWeaponNumber = currentWeaponNumber++ > weaponList.Count - 1 ? 0 : currentWeaponNumber;
+            currentWeaponNumber++;
+            currentWeaponNumber = currentWeaponNumber > weaponList.Count - 1 ? 0 : currentWeaponNumber;
         }
 
         currentWeapon = weaponList[currentWeaponNumber].GetComponent<IWeapon>();
     }
 
-    private void CreateProjectile(GameObject projectile, Transform spawnPoint)
-    {
-        GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-        newProjectile.GetComponent<ProjectileBase>().Damage = currentDamage;
-    }
+    //private void CreateProjectile(GameObject projectile, Transform spawnPoint)
+    //{
+    //    GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+    //    newProjectile.GetComponent<ProjectileBase>().Damage = currentDamage;
+    //}
 
     //private void InitializeProjectile(GameObject projectile, Transform spawnPoint)
     //{
@@ -143,68 +143,14 @@ public class PlayerBehaviour : DamageableObject
     {
         if(cooldownTimer >= currentFireRate)
         {
-            //missileCounter += 1;
-            //InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), projectileSpawn);
-
-            //FireLaser();
-
-            // currentWeapon.Shoot();
-
             currentWeapon.Shoot(currentDamage);
 
-            //if (missileCounter >= 5)
-            //{
-            //    FireMissile();
-            //}
-
-            //DroneFire();
             cooldownTimer = 0;
+            DroneFire();
         }
     }
 
-    //private void FireLaser()
-    //{
-    //    int index = 0;
-    //    for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.SPREAD]; i++)
-    //    {
-    //        InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
-    //        index++;
-    //        InitializeProjectile(ObjectPool.Instance.GetPooledLazer(), SpreadSpawPoints[index]);
-    //        index++;
-    //        if (index >= SpreadSpawPoints.Count)
-    //        {
-    //            break;
-    //        }
-    //    }
-    //}
-
-    //private void FireMissile()
-    //{
-    //    int index = 0;
-
-    //        for (int i = 1; i <= upgrades[PowerUpEnums.PowerEnum.MISSILE]; i++)
-    //        {
-    //            if (index <= 1)
-    //            {
-    //                InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
-    //                index++;
-    //                InitializeMissile(ObjectPool.Instance.GetPooledMisslie(), missileSpawnpoints[index]);
-    //                index++;
-    //            }
-    //            else
-    //            {
-    //                InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
-    //                index++;
-    //                InitializeMissile(ObjectPool.Instance.GetPooledHomingMissile(), missileSpawnpoints[index]);
-    //                index++;
-    //            }
-
-    //            if (index >= missileSpawnpoints.Count)
-    //                break;
-    //        }
-    //    missileCounter = 0;
-    //}
-
+    
     private void DroneFire()
     {
         foreach(PlayerDrone drone in drones)

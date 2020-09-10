@@ -9,7 +9,7 @@ public class ParticleSpawner : MonoBehaviour
 
     static public ParticleSpawner Instance { get { return instance; } }
 
-    public enum Particles { Explosion }
+    public enum Particles { Explosion}
 
     [SerializeField] private Dictionary<Particles, List<ParticleSystem>> particleCollection = new Dictionary<Particles, List<ParticleSystem>>();
     [SerializeField] private List<ParticleSystem> particles = new List<ParticleSystem>();
@@ -61,19 +61,6 @@ public class ParticleSpawner : MonoBehaviour
             particleTypes.TryGetValue(type, out ParticleSystem particaleSys);
             currentParticle = Instantiate(particaleSys, location, Quaternion.identity);
         }
-
-        //if (currentParticle != null)
-        //{
-        //    currentParticle.transform.position = location;
-        //    currentParticle.gameObject.SetActive(true);
-
-        //}
-        //else
-        //{
-        //    Debug.Log("going else");
-        //    particleTypes.TryGetValue(type, out ParticleSystem particaleSys);
-        //    currentParticle = Instantiate(particaleSys, location, Quaternion.identity);
-        //}
             RemoveFromList(value, currentParticle);
     }
 
