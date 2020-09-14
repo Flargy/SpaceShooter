@@ -32,6 +32,7 @@ public class GameUI : MonoBehaviour
 
     public void AssignBossHealth(float health)
     {
+        Debug.Log("health: " + health);
         bossSlider.gameObject.SetActive(true);
         bossSlider.maxValue = health;
         bossSlider.value = bossSlider.maxValue;
@@ -40,11 +41,19 @@ public class GameUI : MonoBehaviour
     public void UpdateBossSlider(float damage)
     {
         bossSlider.value -= damage;
-        if(bossSlider.value <= bossSlider.minValue)
+        Debug.Log("boss health: " + bossSlider.value);
+        if(bossSlider.value <= 0)
         {
-            bossSlider.gameObject.SetActive(false);
+            Debug.Log("should be removed");
+            HideBossHealth();
         }
     }
+
+    public void HideBossHealth()
+    {
+        bossSlider.gameObject.SetActive(false);
+    }
+
 
     public void UpdateUpgrades(PowerUpEnums.PowerEnum targetEnum, float upgrade)
     {

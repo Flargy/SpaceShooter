@@ -58,9 +58,14 @@ public class EnemyBase : DamageableObject
             ParticleSpawner.Instance.SpawnParticleEffect(ParticleSpawner.Particles.Explosion, transform.position);
             SpawnPowerup();
             KilledByPlayer();
-            EnemySpawner.Instance.RemoveEnemy();
-            GameVariables.Instance.RemoveEnemy(this);
+            removeFromList();
         }
+    }
+
+    public void removeFromList()
+    {
+        EnemySpawner.Instance.RemoveEnemy();
+        GameVariables.Instance.RemoveEnemy(this);
     }
 
     protected virtual void Fire()

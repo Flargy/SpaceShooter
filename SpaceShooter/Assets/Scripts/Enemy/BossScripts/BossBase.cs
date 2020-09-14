@@ -84,7 +84,8 @@ public class BossBase : DamageableObject
         if (transform.position.z <= 10)
         {
             immune = false;
-            GameVariables.GameUI.AssignBossHealth(health);
+            if(!defeated)
+                GameVariables.GameUI.AssignBossHealth(health);
         }
     }
 
@@ -167,12 +168,18 @@ public class BossBase : DamageableObject
         defeated = true;
         immune = true;
         GetComponent<Collider>().enabled = false;
-        EnemySpawner.Instance.RemoveEnemy();
+        GameVariables.Instance.RemoveBoss(this);
         Destroy(gameObject, 7.5f);
     }
 
     public override void DestroyMyGameObject()
     {
-        OnDefeat();
+        foreach(GameObject obj in listOfMines)
+        {
+            Destroy(obj);
+        }
+        listOfMines.Clear();
+
+        Destroy(gameObject);
     }
 }

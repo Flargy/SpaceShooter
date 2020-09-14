@@ -104,4 +104,14 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(delay);
         bossActive = false;
     }
+
+    public void GameReset()
+    {
+        activeEnemies = 0;
+        maxEnemies = 3;
+        wave = 1;
+        currentKills = 0;
+        bossActive = false;
+        killsToBoss = 10;
+    }
 }

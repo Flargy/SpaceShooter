@@ -70,6 +70,14 @@ public class GameVariables : MonoBehaviour
         }
     }
 
+    public void RemoveBoss(DamageableObject boss)
+    {
+        if (enemies.Contains(boss))
+        {
+            enemies.Remove(boss);
+        }
+    }
+
     public void EmptyList(ref List<GameObject> list)
     {
         foreach(GameObject obj in list)
@@ -107,5 +115,7 @@ public class GameVariables : MonoBehaviour
         enemies.Clear();
         gameUI.GameOver();
         Player.ResetPlayer();
+        EnemySpawner.Instance.GameReset();
+        gameUI.HideBossHealth();
     }
 }

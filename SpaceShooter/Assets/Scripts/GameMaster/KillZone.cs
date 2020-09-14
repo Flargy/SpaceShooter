@@ -7,7 +7,7 @@ public class KillZone : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy") == true)
         {
             EnemySpawner.Instance.EnemyOutOfBounds();
-            Destroy(other.gameObject);
+            other.GetComponent<EnemyBase>().removeFromList();
         }
 
     }

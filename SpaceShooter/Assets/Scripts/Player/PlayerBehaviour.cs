@@ -17,10 +17,13 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private bool multipleUpgradesAllowed = false;
     //new stuff
     [SerializeField] private List<GameObject> weaponList = new List<GameObject>();
+    [SerializeField] private GameObject playerShield = null;
+    [SerializeField] private float shieldCooldown = 10.0f;
+    [SerializeField] private float shieldDuration = 2.0f;
+    private float shieldTimer = 0.0f;
 
     private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
 
-    private int missileCounter = 0;
     private float currentFireRate = 0f;
     private float currentDamage = 0f;
     private Vector3 direction = Vector3.zero;
@@ -31,6 +34,9 @@ public class PlayerBehaviour : DamageableObject
     private MeshRenderer playerMeshRenderer = null;
     private IWeapon currentWeapon = null;
     private int currentWeaponNumber = 0;
+    private bool isImmortal = false;
+    private ParticleSystem shieldParticleSystem = null;
+    private float weaponsSpecificFireRate = 0.0f;
     
     protected override void Awake()
     {
@@ -45,6 +51,8 @@ public class PlayerBehaviour : DamageableObject
         startHealth = health;
         playerMeshRenderer = playerMesh.GetComponent<MeshRenderer>();
         currentWeapon = weaponList[0].GetComponent<IWeapon>();
+        shieldParticleSystem = playerShield.GetComponent<ParticleSystem>();
+        weaponsSpecificFireRate = fireRate;
     }
 
     protected override void Start()
@@ -70,6 +78,7 @@ public class PlayerBehaviour : DamageableObject
 
         playerMesh.transform.rotation = Quaternion.Euler(new Vector3(direction.x * 10, 0, direction.z * 10));
 
+        Shield();
         SwapWeapon();
 
         cooldownTimer += GameVariables.GameTime;
@@ -109,6 +118,16 @@ public class PlayerBehaviour : DamageableObject
             currentWeaponNumber = currentWeaponNumber > weaponList.Count - 1 ? 0 : currentWeaponNumber;
         }
 
+        switch (currentWeaponNumber)
+        {
+            case 0: weaponsSpecificFireRate = currentFireRate;
+                break;
+            case 1: weaponsSpecificFireRate = currentFireRate * 3.0f;
+                break;
+            case 2: weaponsSpecificFireRate = currentFireRate * 5.0f;
+                break;
+
+        }
         currentWeapon = weaponList[currentWeaponNumber].GetComponent<IWeapon>();
     }
 
@@ -141,7 +160,7 @@ public class PlayerBehaviour : DamageableObject
 
     private void Fire()
     {
-        if(cooldownTimer >= currentFireRate)
+        if(cooldownTimer >= weaponsSpecificFireRate)
         {
             currentWeapon.Shoot(currentDamage);
 
@@ -233,9 +252,17 @@ public class PlayerBehaviour : DamageableObject
         }
     }
 
+    public void Shield()
+    {
+        if(Input.GetKeyDown(KeyCode.R) && Mathf.Approximately(shieldTimer, 0.0f))
+        {
+            StartCoroutine(ShieldTimer());
+        }
+    }
+
     public override void TakeDamage(float dmg)
     {
-        if (immortalityTimer <= 2f)
+        if ( isImmortal == true || immortalityTimer <= 2f)
         {
             return;
         }
@@ -277,7 +304,7 @@ public class PlayerBehaviour : DamageableObject
 
     private IEnumerator flashForImmunity()
     {
-        float gameTimer = GameVariables.GameTime * 1;
+        float gameTimer = GameVariables.GameTime;
         while (immortalityTimer < 1.9f)
         {
             playerMeshRenderer.enabled = false;
@@ -286,6 +313,34 @@ public class PlayerBehaviour : DamageableObject
             yield return new WaitForSeconds(gameTimer * 0.1f);
         }
         yield return null;
+    }
+
+    private IEnumerator ShieldTimer()
+    {
+        float gameTimer = GameVariables.GameTime;
+
+        shieldParticleSystem.Play();
+        isImmortal = true;
+        while(shieldTimer <= shieldDuration)
+        {
+            shieldTimer += gameTimer;
+            yield return null;
+        }
+
+        shieldParticleSystem.Stop();
+        isImmortal = false;
+        while(shieldTimer <= shieldCooldown)
+        {
+            shieldTimer += gameTimer;
+            yield return null;
+        }
+        shieldTimer = 0.0f;
+
+    }
+
+    public float GetShieldDuration()
+    {
+        return shieldDuration;
     }
 
 }
