@@ -113,5 +113,6 @@ public class EnemySpawner : MonoBehaviour
         currentKills = 0;
         bossActive = false;
         killsToBoss = 10;
+        DifficultyMultiplier = 1.0f;
     }
 }

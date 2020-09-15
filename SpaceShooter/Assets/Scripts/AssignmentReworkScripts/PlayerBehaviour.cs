@@ -8,9 +8,6 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float fireRate = 1;
     [SerializeField] private int baseDamage = 1;
-    [SerializeField] private Transform projectileSpawn = default;
-    [SerializeField] private List<Transform> SpreadSpawPoints = new List<Transform>();
-    [SerializeField] private List<Transform> missileSpawnpoints = new List<Transform>();
     [SerializeField] private Transform droneHolder = default;
     [SerializeField] private List<PlayerDrone> drones = new List<PlayerDrone>();
     [SerializeField] private GameObject playerMesh = null;
@@ -21,6 +18,10 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private float shieldCooldown = 10.0f;
     [SerializeField] private float shieldDuration = 2.0f;
     private float shieldTimer = 0.0f;
+    private bool weaponHasBeenPickedUp = false; // Lazy solution but easy as it doesn't require a lot of code changes
+    private ParticleSystem shieldParticleSystem = null;
+    private float weaponsSpecificFireRate = 0.0f;
+
 
     private Dictionary<PowerUpEnums.PowerEnum, int> upgrades = new Dictionary<PowerUpEnums.PowerEnum, int>();
 
@@ -35,8 +36,6 @@ public class PlayerBehaviour : DamageableObject
     private IWeapon currentWeapon = null;
     private int currentWeaponNumber = 0;
     private bool isImmortal = false;
-    private ParticleSystem shieldParticleSystem = null;
-    private float weaponsSpecificFireRate = 0.0f;
     
     protected override void Awake()
     {
@@ -106,6 +105,10 @@ public class PlayerBehaviour : DamageableObject
 
     private void SwapWeapon()
     {
+        if(weaponHasBeenPickedUp == false)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             currentWeaponNumber--;
@@ -118,45 +121,27 @@ public class PlayerBehaviour : DamageableObject
             currentWeaponNumber = currentWeaponNumber > weaponList.Count - 1 ? 0 : currentWeaponNumber;
         }
 
-        switch (currentWeaponNumber)
+        ActivateWeapon(currentWeaponNumber);
+    }
+
+    private void ActivateWeapon(int weapon)
+    {
+        switch (weapon)
         {
-            case 0: weaponsSpecificFireRate = currentFireRate;
+            case 0:
+                weaponsSpecificFireRate = currentFireRate;
                 break;
-            case 1: weaponsSpecificFireRate = currentFireRate * 3.0f;
+            case 1:
+                weaponsSpecificFireRate = currentFireRate * 3.0f;
                 break;
-            case 2: weaponsSpecificFireRate = currentFireRate * 5.0f;
+            case 2:
+                weaponsSpecificFireRate = currentFireRate * 5.0f;
                 break;
 
         }
-        currentWeapon = weaponList[currentWeaponNumber].GetComponent<IWeapon>();
+        currentWeapon = weaponList[weapon].GetComponent<IWeapon>();
     }
-
-    //private void CreateProjectile(GameObject projectile, Transform spawnPoint)
-    //{
-    //    GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-    //    newProjectile.GetComponent<ProjectileBase>().Damage = currentDamage;
-    //}
-
-    //private void InitializeProjectile(GameObject projectile, Transform spawnPoint)
-    //{
-    //    if(projectile != null)
-    //    {
-    //        projectile.transform.position = spawnPoint.position;
-    //        projectile.transform.rotation = spawnPoint.rotation;
-    //        projectile.SetActive(true);
-    //        projectile.GetComponent<ProjectileBase>().Damage = currentDamage;
-    //    }
-    //    else
-    //    {
-    //        CreateProjectile(projectile, spawnPoint);
-    //    }
-    //}
-
-    //private void InitializeMissile(GameObject projectile, Transform spawnPoint)
-    //{
-    //    InitializeProjectile(projectile, spawnPoint);
-    //    projectile.GetComponent<MissileBase>().Spawn();
-    //}
+    
 
     private void Fire()
     {
@@ -212,6 +197,10 @@ public class PlayerBehaviour : DamageableObject
             }
             else
             {
+                if(weaponHasBeenPickedUp == false && powerEnum == PowerUpEnums.PowerEnum.MISSILE)
+                {
+                    weaponHasBeenPickedUp = true;
+                }
                 currentUppgrade = upgrades[powerEnum]++;
                 GameVariables.GameUI.UpdateUpgrades(powerEnum, upgrades[powerEnum]);
             }
@@ -290,6 +279,8 @@ public class PlayerBehaviour : DamageableObject
         currentDamage = baseDamage;
         currentFireRate = fireRate;
         transform.position = startPos;
+        ActivateWeapon(0);
+        weaponHasBeenPickedUp = false;
         foreach (PlayerDrone drone in drones)
         {
             drone.ActivateDrone(false);

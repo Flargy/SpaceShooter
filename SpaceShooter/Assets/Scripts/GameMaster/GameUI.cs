@@ -41,10 +41,10 @@ public class GameUI : MonoBehaviour
     public void UpdateBossSlider(float damage)
     {
         bossSlider.value -= damage;
-        Debug.Log("boss health: " + bossSlider.value);
+
         if(bossSlider.value <= 0)
         {
-            Debug.Log("should be removed");
+
             HideBossHealth();
         }
     }

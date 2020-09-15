@@ -127,14 +127,6 @@ public class BossBase : DamageableObject
 
             if (health <= 0)
             {
-                foreach(GameObject obj in listOfMines)
-                {
-                    //This is an ugly fix, but we didn't have any time to fix it.
-                    GameVariables.GameUI.UpdateBossSlider(1000);
-                    Destroy(obj);
-                }
-                listOfMines.Clear();
-
                 GameVariables.GameUI.UpdatePlayerScore(scoreValue);
 
                 //Hardcoded with the 5, but we just wanted it to work.
@@ -169,6 +161,7 @@ public class BossBase : DamageableObject
         immune = true;
         GetComponent<Collider>().enabled = false;
         GameVariables.Instance.RemoveBoss(this);
+        GameVariables.GameUI.HideBossHealth();
         Destroy(gameObject, 7.5f);
     }
 
