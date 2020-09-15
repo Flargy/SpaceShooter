@@ -11,7 +11,6 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private Transform droneHolder = default;
     [SerializeField] private List<PlayerDrone> drones = new List<PlayerDrone>();
     [SerializeField] private GameObject playerMesh = null;
-    [SerializeField] private bool multipleUpgradesAllowed = false;
     //new stuff
     [SerializeField] private List<GameObject> weaponList = new List<GameObject>();
     [SerializeField] private GameObject playerShield = null;
@@ -205,25 +204,38 @@ public class PlayerBehaviour : DamageableObject
                 GameVariables.GameUI.UpdateUpgrades(powerEnum, upgrades[powerEnum]);
             }
 
-            if(multipleUpgradesAllowed == false)
+            
+            foreach (PowerUpEnums.PowerEnum entry in Enum.GetValues(typeof(PowerUpEnums.PowerEnum)))
             {
-                foreach (PowerUpEnums.PowerEnum entry in Enum.GetValues(typeof(PowerUpEnums.PowerEnum)))
+                if (upgrades.ContainsKey(entry))
                 {
-                    if (upgrades.ContainsKey(entry))
+                    if (entry == powerEnum)
                     {
-                        if (entry == powerEnum)
-                        {
-                            upgrades[entry] = currentUppgrade;
-                            GameVariables.GameUI.UpdateUpgrades(entry, upgrades[entry]);
-                        }
-                        else
-                        {
-                            upgrades[entry] = 0;
-                            GameVariables.GameUI.UpdateUpgrades(entry, upgrades[entry]);
-                        }
+                        upgrades[entry] = currentUppgrade;
+                        GameVariables.GameUI.UpdateUpgrades(entry, upgrades[entry]);
+                    }
+                    else
+                    {
+                        upgrades[entry] = 0;
+                        GameVariables.GameUI.UpdateUpgrades(entry, upgrades[entry]);
                     }
                 }
             }
+
+            switch (powerEnum)
+            {
+                case PowerUpEnums.PowerEnum.SPREAD:
+                    weaponList[0].GetComponent<IWeapon>().Upgrade();
+                    ;
+                    break;
+                case PowerUpEnums.PowerEnum.MISSILE:
+                    weaponList[1].GetComponent<IWeapon>().Upgrade();
+                    weaponList[2].GetComponent<IWeapon>().Upgrade();
+                    break;
+                default:
+                    break;
+            }
+            
         }
         else
         {

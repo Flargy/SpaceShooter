@@ -167,9 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoints:
-  - {fileID: 8848981835376693711}
-  - {fileID: 8848981835376693710}
   - {fileID: 226726883}
+  - {fileID: 8848981835376693710}
+  - {fileID: 8848981835376693711}
 --- !u!1 &226726882
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,10 +394,10 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 8848981835376693718}
   - {fileID: 8848981835376693717}
-  - {fileID: 8848981835376693716}
-  - {fileID: 8848981835376693715}
   - {fileID: 8848981835376693714}
+  - {fileID: 8848981835376693716}
   - {fileID: 8848981835376693713}
+  - {fileID: 8848981835376693715}
   - {fileID: 8848981835376693712}
 --- !u!850595691 &822343081
 LightingSettings:
