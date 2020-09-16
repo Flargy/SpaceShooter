@@ -17,7 +17,6 @@ public class PlayerBehaviour : DamageableObject
     [SerializeField] private float shieldCooldown = 10.0f;
     [SerializeField] private float shieldDuration = 2.0f;
     private float shieldTimer = 0.0f;
-    private bool weaponHasBeenPickedUp = false; // Lazy solution but easy as it doesn't require a lot of code changes
     private ParticleSystem shieldParticleSystem = null;
     private float weaponsSpecificFireRate = 0.0f;
 
@@ -104,10 +103,7 @@ public class PlayerBehaviour : DamageableObject
 
     private void SwapWeapon()
     {
-        if(weaponHasBeenPickedUp == false)
-        {
-            return;
-        }
+       
         if (Input.GetKeyDown(KeyCode.Q))
         {
             currentWeaponNumber--;
@@ -196,10 +192,7 @@ public class PlayerBehaviour : DamageableObject
             }
             else
             {
-                if(weaponHasBeenPickedUp == false && powerEnum == PowerUpEnums.PowerEnum.MISSILE)
-                {
-                    weaponHasBeenPickedUp = true;
-                }
+              
                 currentUppgrade = upgrades[powerEnum]++;
                 GameVariables.GameUI.UpdateUpgrades(powerEnum, upgrades[powerEnum]);
             }
@@ -292,7 +285,7 @@ public class PlayerBehaviour : DamageableObject
         currentFireRate = fireRate;
         transform.position = startPos;
         ActivateWeapon(0);
-        weaponHasBeenPickedUp = false;
+
         foreach (PlayerDrone drone in drones)
         {
             drone.ActivateDrone(false);

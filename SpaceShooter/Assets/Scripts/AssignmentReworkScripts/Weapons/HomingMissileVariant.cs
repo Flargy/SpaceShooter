@@ -15,6 +15,17 @@ public class HomingMissileVariant : MissileWeaponBase
 
     public override void Upgrade()
     {
-        //fix this later
+        if (firePoints.Count < spawnPoints.Count)
+        {
+            upgradeCounter++;
+            firePoints.Add(spawnPoints[upgradeCounter]);
+        }
+    }
+
+    public override void ResetWeapon()
+    {
+        firePoints.Clear();
+        upgradeCounter = 0;
+        firePoints.Add(spawnPoints[upgradeCounter]);
     }
 }
