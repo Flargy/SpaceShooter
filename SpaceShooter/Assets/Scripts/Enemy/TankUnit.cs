@@ -16,7 +16,7 @@ public class TankUnit : EnemyBase
     protected override void Movmentbehaviour()
     {
         float distance = movementSpeed * GameVariables.GameTime;
-        if (transform.position.z <= 0)
+        if (transform.position.z <= 0.5f)
         {
             transform.LookAt(GameVariables.PlayerTransform);
         }
